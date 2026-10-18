@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Terminal / Systems Edition</title>
+<meta name="description" content="Portfolio of Sunil Kharadi (@KIller13b) — Terminal / Systems Engineer Edition" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --term-bg: #0d1117;
+    --term-header: #161b22;
+    --term-border: #30363d;
+    --term-green: #3fb950;
+    --term-cyan: #58a6ff;
+    --term-amber: #d29922;
+    --term-purple: #bc8cff;
+    --term-pink: #f778ba;
+    --term-text: #c9d1d9;
+    --term-muted: #8b949e;
+    --term-white: #f0f6fc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: #040608;
+    color: var(--term-text);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    line-height: 1.6;
+    padding-bottom: 60px;
+    background-image: 
+      radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.05), transparent 70%);
+  }
+
+  /* Preview switcher floating pill */
+  .preview-bar {
+    position: sticky;
+    top: 12px;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    margin-bottom: 24px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .preview-bar-inner {
+    background: rgba(15, 17, 26, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.6);
+  }
+  .preview-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--term-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0 10px;
+  }
+  .preview-btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #94a3b8;
+    transition: all 0.2s;
+  }
+  .preview-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+  }
+  .preview-btn.active {
+    background: #238636;
+    color: #fff;
+    box-shadow: 0 0 16px rgba(46, 160, 67, 0.4);
+  }
+
+  .container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  /* Main Terminal Window */
+  .terminal-window {
+    background: var(--term-bg);
+    border: 1px solid var(--term-border);
+    border-radius: 12px;
+    box-shadow: 0 24px 64px -12px rgba(0, 0, 0, 0.7), 0 0 1px 1px rgba(255,255,255,0.05);
+    overflow: hidden;
+  }
+
+  /* Window Header */
+  .terminal-bar {
+    background: var(--term-header);
+    border-bottom: 1px solid var(--term-border);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .terminal-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+
+  .terminal-title {
+    font-size: 0.82rem;
+    color: var(--term-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* Terminal Body */
+  .terminal-body {
+    padding: 28px 32px;
+  }
+
+  /* Command Block */
+  .cmd-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+  }
+  .prompt-user { color: var(--term-green); font-weight: 700; }
+  .prompt-sep { color: var(--term-muted); }
+  .prompt-dir { color: var(--term-cyan); font-weight: 600; }
+  .prompt-cmd { color: var(--term-white); font-weight: 600; }
+
+  /* Output Sections */
+  .cmd-output {
+    margin-bottom: 36px;
+    padding-left: 4px;
+  }
+
+  /* ASCII Banner */
+  .ascii-art {
+    color: var(--term-cyan);
+    font-size: 0.75rem;
+    line-height: 1.15;
+    white-space: pre;
+    margin-bottom: 16px;
+    font-weight: 700;
+  }
+
+  /* Key-Value Specs Table */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px 16px;
+    font-size: 0.9rem;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .spec-key { color: var(--term-muted); font-weight: 600; }
+  .spec-val { color: var(--term-white); }
+  .spec-val b { color: var(--term-cyan); }
+
+  /* Project Cards in CLI */
+  .project-entry {
+    border: 1px solid var(--term-border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: rgba(22, 27, 34, 0.4);
+    transition: all 0.2s;
+  }
+  .project-entry:hover {
+    border-color: var(--term-cyan);
+    background: rgba(22, 27, 34, 0.8);
+  }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .project-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--term-white);
+  }
+  .project-status {
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--term-cyan);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+  .project-desc {
+    color: var(--term-text);
+    font-size: 0.88rem;
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .project-tech {
+    color: var(--term-amber);
+    font-size: 0.82rem;
+    margin-bottom: 14px;
+  }
+  .project-links {
+    display: flex;
+    gap: 12px;
+  }
+  .cli-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--term-border);
+    color: var(--term-white);
+    background: var(--term-header);
+    transition: all 0.2s;
+  }
+  .cli-btn:hover {
+    background: #30363d;
+    border-color: var(--term-cyan);
+    color: var(--term-cyan);
+  }
+  .cli-btn-primary {
+    background: #238636;
+    border-color: #2ea043;
+    color: #fff;
+  }
+  .cli-btn-primary:hover {
+    background: #2ea043;
+    color: #fff;
+  }
+
+  /* Skills Matrix */
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 10px 14px;
+    border: 1px solid var(--term-border);
+    text-align: left;
+  }
+  .matrix-table th {
+    background: var(--term-header);
+    color: var(--term-cyan);
+  }
+  .matrix-table td:first-child {
+    font-weight: 600;
+    color: var(--term-amber);
+  }
+
+  /* Quote blockquote */
+  .term-quote {
+    border-left: 3px solid var(--term-purple);
+    padding: 12px 18px;
+    background: rgba(188, 140, 255, 0.05);
+    font-style: italic;
+    color: #e6edf3;
+    margin-bottom: 24px;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--term-green);
+    vertical-align: middle;
+    animation: blink 1s step-start infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (max-width: 768px) {
+    .terminal-body { padding: 18px 16px; }
+    .spec-grid { grid-template-columns: 1fr; }
+    .ascii-art { font-size: 0.55rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Preview Bar -->
+<div class="preview-bar">
+  <div class="preview-bar-inner">
+    <span class="preview-label">Theme Switcher:</span>
+    <a href="preview-bento.html" class="preview-btn">Option 2: Bento Grid</a>
+    <a href="preview-terminal.html" class="preview-btn active">Option 3: Terminal</a>
+    <a href="preview-brutalist.html" class="preview-btn">Option 4: Brutalist</a>
+    <a href="index.html" class="preview-btn">Current Live</a>
+  </div>
+</div>
+
+<main class="container">
+
+  <div class="terminal-window">
+    
+    <!-- Top Bar -->
+    <div class="terminal-bar">
+      <div class="terminal-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="terminal-title">bash — killer13b@iiitn: ~/portfolio (main)</div>
+      <div style="font-size: 0.75rem; color: #3fb950;">● ONLINE</div>
+    </div>
+
+    <!-- Body -->
+    <div class="terminal-body">
+
+      <!-- Command 1: whoami -->
+      <div class="cmd-line">
+        <span class="prompt-user">killer13b@iiitn</span><span class="prompt-sep">:</span><span class="prompt-dir">~</span><span class="prompt-sep">$</span>
+        <span class="prompt-cmd">whoami --verbose</span>
+      </div>
+      
+      <div class="cmd-output">
+        <div class="ascii-art">
+  ___ _   _ _   _ ___ _     
+ / __| | | | \ | |_ _| |    
+ \__ \ |_| |  \| || || |__  
+ |___/\___/|_|\_|___|____| 
+        </div>
+
+        <div class="spec-grid">
+          <div class="spec-key">Name:</div>
+          <div class="spec-val">Sunil Kharadi (@KIller13b)</div>
+          
+          <div class="spec-key">Status:</div>
+          <div class="spec-val"><b>2nd Year B.Tech CSE</b> @ Indian Institute of Information Technology, Nagpur</div>
+          
+          <div class="spec-key">Core Domains:</div>
+          <div class="spec-val">Full-Stack Systems, Autonomous AI Agents, On-Device ML (Edge AI)</div>
+          
+          <div class="spec-key">Architecture:</div>
+          <div class="spec-val">Offline-first, 100% client-side privacy, local runtimes (WebGPU / TFLite / WASM)</div>
+          
+          <div class="spec-key">Availability:</div>
+          <div class="spec-val" style="color: #3fb950;">✔ Open to internships, hackathons &amp; collaborations</div>
+        </div>
+
+        <div class="term-quote">
+          &ldquo;The best software is invisible — it just works, anywhere, for anyone.&rdquo;
+        </div>
+      </div>
+
+      <!-- Command 2: ls -la projects/ -->
+      <div class="cmd-line">
+        <span class="prompt-user">killer13b@iiitn</span><span class="prompt-sep">:</span><span class="prompt-dir">~</span><span class="prompt-sep">$</span>
+        <span class="prompt-cmd">ls -la ./projects/ --classified</span>
+      </div>
+
+      <div class="cmd-output">
+
+        <!-- AgentAudit -->
+        <div class="project-entry">
+          <div class="project-header">
+            <span class="project-name">🛡️ agentaudit/ [FLAGSHIP]</span>
+            <span class="project-status">LIVE APP &amp; CLI</span>
+          </div>
+          <p class="project-desc">
+            Autonomous multi-agent security auditor for GitHub PRs and Solidity smart contracts. Runs 4 parallel agents (Guard, Speedster, Fixer, Solidity) via asyncio with live telemetry and automated patch diffs.
+          </p>
+          <div class="project-tech">
+            [STACK]: FastAPI · Python · React 18 · TypeScript · Solidity · Web3 · Groq Llama-3
+          </div>
+          <div class="project-links">
+            <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener" class="cli-btn cli-btn-primary">▶ Run Live App</a>
+            <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener" class="cli-btn">GitHub Source</a>
+          </div>
+        </div>
+
+        <!-- UPI Ledger -->
+        <div class="project-entry">
+          <div class="project-header">
+            <span class="project-name">💰 upi-ledger/</span>
+            <span class="project-status">100% CLIENT-SIDE</span>
+          </div>
+          <p class="project-desc">
+            Privacy-first local bank &amp; GPay statement analyzer. Zero backend servers — parses encrypted PDFs on-device using <code>pdf.js</code> and IndexedDB storage.
+          </p>
+          <div class="project-tech">
+            [STACK]: React 18 · TypeScript · Vite · pdf.js · Dexie.js · Tailwind v4 · PWA
+          </div>
+          <div class="project-links">
+            <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener" class="cli-btn cli-btn-primary">▶ Run Live App</a>
+            <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener" class="cli-btn">GitHub Source</a>
+          </div>
+        </div>
+
+        <!-- In-Browser Object Classifier -->
+        <div class="project-entry">
+          <div class="project-header">
+            <span class="project-name">🧠 object-classifier/</span>
+            <span class="project-status">WEBGPU ACCELERATED</span>
+          </div>
+          <p class="project-desc">
+            Zero-shot open-vocabulary image classifier running quantized CLIP models directly in user browsers via WebGPU and Transformers.js. No server costs or API latency.
+          </p>
+          <div class="project-tech">
+            [STACK]: Transformers.js · WebGPU · ONNX Runtime Web · CLIP · PWA
+          </div>
+          <div class="project-links">
+            <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener" class="cli-btn cli-btn-primary">▶ Run Live App</a>
+            <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener" class="cli-btn">GitHub Source</a>
+          </div>
+        </div>
+
+        <!-- Kabadiwala Connect -->
+        <div class="project-entry">
+          <div class="project-header">
+            <span class="project-name">♻️ kabadiwala-connect/</span>
+            <span class="project-status">SIH 2026</span>
+          </div>
+          <p class="project-desc">
+            Circular e-waste economy platform designed for informal scrap collectors. Integrates on-device MobileNetV2 image classification to ensure fair material valuation (3-8x price uplift) with transparent recycler matching.
+          </p>
+          <div class="project-tech">
+            [STACK]: Flutter · Dart · FastAPI · TFLite · MobileNetV2 · Offline Storage
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener" class="cli-btn">GitHub Source</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Command 3: sysinfo --skills -->
+      <div class="cmd-line">
+        <span class="prompt-user">killer13b@iiitn</span><span class="prompt-sep">:</span><span class="prompt-dir">~</span><span class="prompt-sep">$</span>
+        <span class="prompt-cmd">cat /proc/skills</span>
+      </div>
+
+      <div class="cmd-output">
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Technologies &amp; Frameworks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Languages</td>
+              <td>Python, TypeScript, JavaScript, Dart, C++, Solidity, SQL</td>
+            </tr>
+            <tr>
+              <td>AI / ML &amp; Edge</td>
+              <td>Autonomous Multi-Agents, Transformers.js, WebGPU, TFLite, ONNX, Prompt Ops</td>
+            </tr>
+            <tr>
+              <td>Web &amp; Backend</td>
+              <td>FastAPI, React 18, Next.js, Node.js, Vite, Tailwind CSS, REST APIs</td>
+            </tr>
+            <tr>
+              <td>Mobile &amp; DevOps</td>
+              <td>Flutter, Docker, Git / GitHub Actions, Linux, Playwright</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Command 4: contact -->
+      <div class="cmd-line">
+        <span class="prompt-user">killer13b@iiitn</span><span class="prompt-sep">:</span><span class="prompt-dir">~</span><span class="prompt-sep">$</span>
+        <span class="prompt-cmd">curl -X POST /api/contact --data "intent=collaborate"</span>
+      </div>
+
+      <div class="cmd-output" style="margin-bottom: 12px;">
+        <div style="color: #3fb950; margin-bottom: 14px;">[HTTP 200 OK] Handshake accepted. Let's build something impactful:</div>
+        <div class="project-links">
+          <a href="mailto:bt25cse080@gmail.com" class="cli-btn cli-btn-primary">📧 Email: bt25cse080@gmail.com</a>
+          <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" class="cli-btn">LinkedIn Profile</a>
+          <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="cli-btn">GitHub: @KIller13b</a>
+        </div>
+      </div>
+
+      <!-- Active Prompt with blinking cursor -->
+      <div class="cmd-line" style="margin-top: 24px;">
+        <span class="prompt-user">killer13b@iiitn</span><span class="prompt-sep">:</span><span class="prompt-dir">~</span><span class="prompt-sep">$</span>
+        <span class="prompt-cmd">ready to build</span> <span class="cursor"></span>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>
+
+</body>
+</html>

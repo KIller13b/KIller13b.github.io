@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Bento Grid Portfolio</title>
+<meta name="description" content="Portfolio of Sunil Kharadi (@KIller13b) — Bento Grid Edition" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #090a10;
+    --card-bg: rgba(18, 20, 32, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --card-hover-border: rgba(99, 102, 241, 0.35);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.15);
+    --cyan: #06b6d4;
+    --emerald: #10b981;
+    --amber: #f59e0b;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+      radial-gradient(ellipse 60% 40% at 85% 60%, rgba(6, 182, 212, 0.08), transparent);
+    background-attachment: fixed;
+    padding-bottom: 60px;
+  }
+
+  /* Preview switcher floating pill */
+  .preview-bar {
+    position: sticky;
+    top: 12px;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    margin-bottom: 24px;
+  }
+  .preview-bar-inner {
+    background: rgba(15, 17, 26, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 999px;
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.5);
+  }
+  .preview-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0 10px;
+  }
+  .preview-btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: var(--transition);
+  }
+  .preview-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.08);
+  }
+  .preview-btn.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+  }
+
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Bento Base Card */
+  .bento-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  .bento-card:hover {
+    border-color: var(--card-hover-border);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Grid Layouts */
+  .grid-hero {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .grid-projects {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .grid-bottom {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+  }
+
+  /* Hero Section Cards */
+  .card-intro {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-status {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-quote {
+    grid-column: span 5;
+  }
+  .card-stats {
+    grid-column: span 7;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    align-items: center;
+  }
+
+  /* Badge Pill */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(99, 102, 241, 0.1);
+    color: #818cf8;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    width: fit-content;
+    margin-bottom: 16px;
+  }
+  .pill-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 14px;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .gradient-accent {
+    background: linear-gradient(135deg, #818cf8 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro-text {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    max-width: 90%;
+    margin-bottom: 24px;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  .btn-primary {
+    background: #fff;
+    color: #090a10;
+  }
+  .btn-primary:hover {
+    background: #e2e8f0;
+    transform: translateY(-1px);
+  }
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+  }
+  .btn-glass:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+
+  /* Status Card */
+  .campus-badge {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .campus-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .campus-val {
+    font-weight: 700;
+    color: #fff;
+    font-size: 0.95rem;
+  }
+
+  /* Stats numbers */
+  .stat-box {
+    text-align: center;
+    padding: 12px;
+    border-radius: var(--radius-md);
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .stat-num {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .stat-lbl {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* Quote Card */
+  .quote-symbol {
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.6;
+    margin-bottom: 8px;
+    font-family: serif;
+  }
+  .quote-text {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: #e2e8f0;
+    line-height: 1.5;
+  }
+
+  /* Section Title */
+  .section-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--cyan);
+    font-weight: 700;
+    margin: 36px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* Project Cards in Bento */
+  .card-flagship {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 28px;
+    align-items: center;
+    border-color: rgba(99, 102, 241, 0.25);
+    background: linear-gradient(135deg, rgba(24, 27, 44, 0.8) 0%, rgba(15, 17, 28, 0.8) 100%);
+  }
+  .flagship-preview img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  }
+  .card-medium {
+    grid-column: span 6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .card-medium img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-small {
+    grid-column: span 6;
+  }
+
+  .project-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .project-tagline {
+    font-size: 0.88rem;
+    color: var(--cyan);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .project-desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin-bottom: 16px;
+    line-height: 1.55;
+  }
+  
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #cbd5e1;
+    padding: 3px 9px;
+    border-radius: 6px;
+  }
+
+  /* Skills Bento */
+  .card-skills {
+    grid-column: span 8;
+  }
+  .skills-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .skill-block h4 {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .card-connect {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(99, 102, 241, 0.08) 100%);
+  }
+
+  @media (max-width: 900px) {
+    .card-intro, .card-status, .card-quote, .card-stats,
+    .card-medium, .card-small, .card-skills, .card-connect {
+      grid-column: span 12;
+    }
+    .card-flagship {
+      grid-column: span 12;
+      grid-template-columns: 1fr;
+    }
+    .skills-wrapper {
+      grid-template-columns: 1fr;
+    }
+    h1 { font-size: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Interactive Preview Bar -->
+<div class="preview-bar">
+  <div class="preview-bar-inner">
+    <span class="preview-label">Theme Switcher:</span>
+    <a href="preview-bento.html" class="preview-btn active">Option 2: Bento Grid</a>
+    <a href="preview-terminal.html" class="preview-btn">Option 3: Terminal</a>
+    <a href="preview-brutalist.html" class="preview-btn">Option 4: Brutalist</a>
+    <a href="index.html" class="preview-btn">Current Live</a>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- TOP BENTO GRID -->
+  <div class="grid-hero">
+    
+    <!-- Hero Box -->
+    <div class="bento-card card-intro">
+      <div>
+        <div class="pill">
+          <span class="pill-pulse"></span> Open to Internships &amp; Collaborations
+        </div>
+        <h1>
+          <span class="gradient-text">Sunil Kharadi</span><br>
+          <span class="gradient-accent">Building at the Edge of AI.</span>
+        </h1>
+        <p class="intro-text">
+          2nd Year CSE @ <b>IIIT Nagpur</b>. Full-stack developer focused on autonomous AI agents, on-device machine learning (WebGPU / TFLite), and local-first privacy architectures.
+        </p>
+      </div>
+      <div class="action-buttons">
+        <a href="#projects" class="btn btn-primary">Explore Projects</a>
+        <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="btn btn-glass">GitHub Profile</a>
+        <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" class="btn btn-glass">LinkedIn</a>
+        <a href="mailto:bt25cse080@gmail.com" class="btn btn-glass">Email</a>
+      </div>
+    </div>
+
+    <!-- Campus & Focus Box -->
+    <div class="bento-card card-status">
+      <div>
+        <div class="campus-badge">
+          <div class="campus-title">Institution</div>
+          <div class="campus-val">IIIT Nagpur (CSE '28)</div>
+        </div>
+        <div class="campus-badge">
+          <div class="campus-title">Core Focus</div>
+          <div class="campus-val">Edge AI &amp; Local-First Systems</div>
+        </div>
+        <div class="campus-badge">
+          <div class="campus-title">Specialization</div>
+          <div class="campus-val">Autonomous Agents &amp; Security</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quote Box -->
+    <div class="bento-card card-quote">
+      <div class="quote-symbol">&ldquo;</div>
+      <p class="quote-text">
+        "The best software is invisible — it just works, anywhere, for anyone."
+      </p>
+    </div>
+
+    <!-- Stats Box -->
+    <div class="bento-card card-stats">
+      <div class="stat-box">
+        <div class="stat-num">4+</div>
+        <div class="stat-lbl">Shipped Projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-lbl">Offline-First Capable</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">SIH '26</div>
+        <div class="stat-lbl">Hackathon Team Lead</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label" id="projects">Selected Projects</div>
+
+  <!-- PROJECTS BENTO GRID -->
+  <div class="grid-projects">
+
+    <!-- Flagship: AgentAudit -->
+    <div class="bento-card card-flagship">
+      <div>
+        <div class="pill" style="background: rgba(6,182,212,0.1); color: #22d3ee; border-color: rgba(6,182,212,0.25);">
+          🛡️ Flagship Project
+        </div>
+        <h2 class="project-title">AgentAudit</h2>
+        <p class="project-tagline">Autonomous Multi-Agent AI Security Auditor</p>
+        <p class="project-desc">
+          Audits GitHub Pull Requests and Solidity smart contracts in seconds. Orchestrates 4 parallel agents (<b>Guard</b> for vulnerabilities, <b>Speedster</b> for performance, <b>Fixer</b> for code diffs, and <b>Solidity</b> for reentrancy/Web3 flaws).
+        </p>
+        <div class="tag-cloud">
+          <span class="tag">FastAPI</span><span class="tag">React 18</span><span class="tag">Solidity</span><span class="tag">asyncio</span><span class="tag">Groq Llama-3</span><span class="tag">TypeScript</span>
+        </div>
+        <div class="action-buttons">
+          <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener" class="btn btn-primary">Live App</a>
+          <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener" class="btn btn-glass">GitHub Source</a>
+        </div>
+      </div>
+      <div class="flagship-preview">
+        <img src="assets/agentaudit.png" alt="AgentAudit Dashboard" />
+      </div>
+    </div>
+
+    <!-- Medium Project 1: UPI Ledger -->
+    <div class="bento-card card-medium">
+      <div>
+        <img src="assets/upi-ledger.png" alt="UPI Ledger UI" />
+        <h3 class="project-title">UPI Ledger</h3>
+        <p class="project-tagline">100% Client-Side Privacy Financial Parser</p>
+        <p class="project-desc">
+          Zero data leaves the browser. Parses Google Pay PDF statements and bank CSVs entirely in-browser using <code>pdf.js</code> and IndexedDB.
+        </p>
+        <div class="tag-cloud">
+          <span class="tag">React 18</span><span class="tag">TypeScript</span><span class="tag">pdf.js</span><span class="tag">Dexie.js</span><span class="tag">Tailwind</span>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener" class="btn btn-primary">Live App</a>
+        <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener" class="btn btn-glass">Source</a>
+      </div>
+    </div>
+
+    <!-- Medium Project 2: Object Classifier -->
+    <div class="bento-card card-medium">
+      <div>
+        <img src="assets/object-classifier.png" alt="Object Classifier UI" />
+        <h3 class="project-title">Object Classifier</h3>
+        <p class="project-tagline">Zero-Shot In-Browser Image Recognition</p>
+        <p class="project-desc">
+          Zero server dependencies. Runs quantized CLIP directly on user hardware accelerated with WebGPU via Transformers.js.
+        </p>
+        <div class="tag-cloud">
+          <span class="tag">Transformers.js</span><span class="tag">WebGPU</span><span class="tag">ONNX</span><span class="tag">CLIP</span><span class="tag">PWA</span>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener" class="btn btn-primary">Live App</a>
+        <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener" class="btn btn-glass">Source</a>
+      </div>
+    </div>
+
+    <!-- Full Width Mini: Kabadiwala Connect -->
+    <div class="bento-card card-flagship" style="grid-column: span 12; background: rgba(18,20,32,0.7);">
+      <div>
+        <div class="pill" style="background: rgba(16,185,129,0.1); color: #34d399; border-color: rgba(16,185,129,0.25);">
+          ♻️ SIH 2026 Innovation
+        </div>
+        <h3 class="project-title">Kabadiwala Connect</h3>
+        <p class="project-tagline">Circular E-Waste Economy with On-Device TFLite</p>
+        <p class="project-desc">
+          Smart India Hackathon 2026 project empowering informal scrap collectors with offline MobileNetV2 classification (3-8x fair price uplift) and transparent recycler matching.
+        </p>
+        <div class="tag-cloud">
+          <span class="tag">Flutter</span><span class="tag">Dart</span><span class="tag">FastAPI</span><span class="tag">TFLite</span><span class="tag">MobileNetV2</span>
+        </div>
+        <div class="action-buttons">
+          <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener" class="btn btn-glass">View on GitHub</a>
+        </div>
+      </div>
+      <div style="background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 36px; text-align: center;">
+        <div style="font-size: 2.5rem; margin-bottom: 8px;">📱</div>
+        <div style="font-weight: 700; color: #fff;">Offline-First Mobile Architecture</div>
+        <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">TFLite inference runs directly on device without internet</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-label">Capabilities &amp; Contact</div>
+
+  <!-- BOTTOM BENTO GRID -->
+  <div class="grid-bottom">
+    
+    <!-- Skills Card -->
+    <div class="bento-card card-skills">
+      <h3 style="font-size: 1.1rem; margin-bottom: 18px; color: #fff;">Technical Toolbox</h3>
+      <div class="skills-wrapper">
+        <div class="skill-block">
+          <h4>Languages</h4>
+          <div class="tag-cloud">
+            <span class="tag">Python</span><span class="tag">TypeScript</span><span class="tag">Dart</span><span class="tag">JavaScript</span><span class="tag">C++</span><span class="tag">Solidity</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>AI / ML &amp; Edge</h4>
+          <div class="tag-cloud">
+            <span class="tag">LLM Agents</span><span class="tag">Transformers.js</span><span class="tag">WebGPU</span><span class="tag">ONNX</span><span class="tag">TFLite</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>Frontend &amp; Mobile</h4>
+          <div class="tag-cloud">
+            <span class="tag">React 18</span><span class="tag">Next.js</span><span class="tag">Flutter</span><span class="tag">Tailwind CSS</span><span class="tag">Vite</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h4>Backend &amp; DevOps</h4>
+          <div class="tag-cloud">
+            <span class="tag">FastAPI</span><span class="tag">Node.js</span><span class="tag">Docker</span><span class="tag">GitHub Actions</span><span class="tag">Linux</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connect Card -->
+    <div class="bento-card card-connect">
+      <div>
+        <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 8px;">Let's Connect</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
+          Available for winter/summer internships, hackathons, and high-impact engineering projects.
+        </p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="mailto:bt25cse080@gmail.com" class="btn btn-primary" style="justify-content: center;">
+          📧 bt25cse080@gmail.com
+        </a>
+        <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" class="btn btn-glass" style="justify-content: center;">
+          LinkedIn Profile
+        </a>
+        <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="btn btn-glass" style="justify-content: center;">
+          GitHub @KIller13b
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+</body>
+</html>
