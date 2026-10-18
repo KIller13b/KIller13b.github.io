@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Terminal Brutalist Hybrid</title>
+<meta name="description" content="Portfolio of Sunil Kharadi (@KIller13b) — Terminal Brutalist Hybrid Edition" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #090a0f;
+    --card: #10121a;
+    --card-header: #171b26;
+    --border: #282f44;
+    --border-stark: #ffffff;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #d4ff00; /* Electric Acid Lime */
+    --accent-cyan: #38bdf8;
+    --accent-green: #22c55e;
+    --shadow: 5px 5px 0px #ffffff;
+    --shadow-accent: 5px 5px 0px var(--accent);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+    padding-bottom: 80px;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  /* Preview switcher floating pill */
+  .preview-bar {
+    position: sticky;
+    top: 12px;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    margin-bottom: 24px;
+  }
+  .preview-bar-inner {
+    background: #0f121d;
+    border: 2px solid var(--border-stark);
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 4px 4px 0px var(--accent);
+  }
+  .preview-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding-right: 8px;
+    border-right: 1px solid var(--border);
+  }
+  .preview-btn {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    text-decoration: none;
+    color: #94a3b8;
+    transition: all 0.15s;
+  }
+  .preview-btn:hover {
+    color: #fff;
+  }
+  .preview-btn.active {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 2px 2px 0px #fff;
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 18px;
+  }
+
+  /* Main Terminal Window with Brutalist Frame */
+  .terminal-frame {
+    background: var(--card);
+    border: 2px solid var(--border-stark);
+    box-shadow: var(--shadow-accent);
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .window-header {
+    background: var(--card-header);
+    border-bottom: 2px solid var(--border-stark);
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .window-dots {
+    display: flex;
+    gap: 8px;
+  }
+  .dot {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #000;
+  }
+  .dot-red { background: #ef4444; }
+  .dot-yellow { background: #eab308; }
+  .dot-green { background: #22c55e; }
+
+  .window-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent-cyan);
+  }
+  .status-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: var(--accent-green);
+    color: #000;
+    padding: 2px 8px;
+  }
+
+  .window-body {
+    padding: 36px 32px;
+  }
+
+  /* Prompt commands */
+  .cmd-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+  }
+  .p-user { color: var(--accent-green); font-weight: 700; }
+  .p-at { color: var(--text-muted); }
+  .p-dir { color: var(--accent-cyan); font-weight: 600; }
+  .p-cmd { color: #fff; font-weight: 700; }
+
+  /* Hero Banner Content inside Terminal */
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    margin: 12px 0 18px;
+  }
+  h1 span {
+    color: var(--accent);
+  }
+
+  .hero-summary {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    max-width: 860px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* Telemetry Grid */
+  .telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #090b10;
+    border: 1px solid var(--border);
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+  .tele-item {
+    font-size: 0.82rem;
+  }
+  .tele-label {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .tele-val {
+    color: #fff;
+    font-weight: 700;
+  }
+  .tele-val.accent {
+    color: var(--accent);
+  }
+
+  /* Brutal Action Buttons */
+  .action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-brutal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 18px;
+    border: 2px solid var(--border-stark);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+  .btn-accent {
+    background: var(--accent);
+    color: #000;
+    box-shadow: 3px 3px 0px #fff;
+  }
+  .btn-accent:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px #fff;
+  }
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+  }
+  .btn-outline:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  /* Manifesto Quote Strip */
+  .manifesto-strip {
+    border: 2px solid var(--border-stark);
+    background: #000;
+    padding: 18px 24px;
+    margin-bottom: 36px;
+    box-shadow: 4px 4px 0px var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .manifesto-tag {
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    white-space: nowrap;
+  }
+  .manifesto-quote {
+    font-size: 1rem;
+    color: #fff;
+    font-style: italic;
+  }
+
+  /* Section Title */
+  .section-tagline {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    border-bottom: 2px solid var(--border-stark);
+    padding-bottom: 10px;
+    margin-bottom: 28px;
+  }
+
+  /* Project Process Block */
+  .proc-card {
+    border: 2px solid var(--border-stark);
+    background: var(--card);
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+    transition: all 0.2s;
+  }
+  .proc-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px var(--accent);
+  }
+
+  .proc-header {
+    background: var(--card-header);
+    border-bottom: 2px solid var(--border-stark);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .proc-index {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.88rem;
+  }
+  .proc-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .proc-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    background: #090b10;
+    color: var(--accent-cyan);
+  }
+
+  .proc-body {
+    padding: 24px 28px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .proc-desc {
+    font-size: 0.95rem;
+    color: #e2e8f0;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  .proc-specs {
+    list-style: none;
+    font-size: 0.86rem;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+  .proc-specs li {
+    margin-bottom: 6px;
+    padding-left: 18px;
+    position: relative;
+  }
+  .proc-specs li::before {
+    content: "▶";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.7rem;
+    top: 2px;
+  }
+
+  .proc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .proc-tag {
+    font-size: 0.75rem;
+    background: #0c0e14;
+    border: 1px solid var(--border);
+    color: #cbd5e1;
+    padding: 3px 8px;
+  }
+
+  .proc-media img {
+    width: 100%;
+    border: 2px solid var(--border);
+    display: block;
+  }
+
+  /* Matrix Table */
+  .matrix-box {
+    border: 2px solid var(--border-stark);
+    background: var(--card);
+    padding: 24px;
+    margin-bottom: 36px;
+    box-shadow: 4px 4px 0px var(--border);
+  }
+  .matrix-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  .matrix-table th, .matrix-table td {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    text-align: left;
+  }
+  .matrix-table th {
+    background: #0c0e14;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .matrix-table td:first-child {
+    font-weight: 700;
+    color: var(--accent-cyan);
+    white-space: nowrap;
+  }
+
+  /* Contact Strip */
+  .contact-box {
+    border: 2px solid var(--border-stark);
+    background: var(--accent);
+    color: #000;
+    padding: 36px 32px;
+    box-shadow: 6px 6px 0px #fff;
+  }
+  .contact-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .contact-sub {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    max-width: 650px;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--accent);
+    vertical-align: middle;
+    animation: blink 1s step-start infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (max-width: 850px) {
+    h1 { font-size: 2.2rem; }
+    .window-body { padding: 20px; }
+    .telemetry-grid { grid-template-columns: 1fr; }
+    .proc-body { grid-template-columns: 1fr; }
+    .manifesto-strip { flex-direction: column; align-items: flex-start; }
+    .contact-box { padding: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Preview Bar -->
+<div class="preview-bar">
+  <div class="preview-bar-inner">
+    <span class="preview-label">Theme Switcher:</span>
+    <a href="preview-terminal-brutalist.html" class="preview-btn active">Hybrid: 3+4</a>
+    <a href="preview-bento.html" class="preview-btn">Option 2: Bento</a>
+    <a href="preview-terminal.html" class="preview-btn">Option 3: Terminal</a>
+    <a href="preview-brutalist.html" class="preview-btn">Option 4: Brutalist</a>
+    <a href="index.html" class="preview-btn">Current Live</a>
+  </div>
+</div>
+
+<main class="container">
+
+  <!-- TERMINAL BRUTALIST HERO WINDOW -->
+  <section class="terminal-frame">
+    <div class="window-header">
+      <div class="window-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <div class="window-title">bash — killer13b@iiitn: ~/portfolio (main)</div>
+      <span class="status-tag">● STATUS: ACTIVE_BUILDER</span>
+    </div>
+
+    <div class="window-body">
+      <div class="cmd-line">
+        <span class="p-user">killer13b@iiitn</span><span class="p-at">:</span><span class="p-dir">~</span><span class="p-at">$</span>
+        <span class="p-cmd">whoami --verbose --target="hackathons &amp; internships"</span>
+      </div>
+
+      <h1>Sunil Kharadi<br><span>Edge AI &amp; Full-Stack Systems</span></h1>
+
+      <p class="hero-summary">
+        2nd Year Computer Science &amp; Engineering student at <b>IIIT Nagpur</b>. Building fast, autonomous software where intelligence lives on-device and privacy is default. Focused on multi-agent AI pipelines, local runtimes (WebGPU/TFLite), and systems security.
+      </p>
+
+      <!-- System Telemetry Grid -->
+      <div class="telemetry-grid">
+        <div class="tele-item">
+          <div class="tele-label">INSTITUTION</div>
+          <div class="tele-val">IIIT Nagpur (CSE '28)</div>
+        </div>
+        <div class="tele-item">
+          <div class="tele-label">CORE_SPECIALIZATION</div>
+          <div class="tele-val">Edge AI &amp; Local Runtimes</div>
+        </div>
+        <div class="tele-item">
+          <div class="tele-label">AVAILABILITY</div>
+          <div class="tele-val accent">✔ Open to Internships &amp; Collabs</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <a href="#projects" class="btn-brutal btn-accent">Explore Systems ↓</a>
+        <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="btn-brutal btn-outline">GitHub // @KIller13b</a>
+        <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" class="btn-brutal btn-outline">LinkedIn Profile</a>
+        <a href="mailto:bt25cse080@gmail.com" class="btn-brutal btn-outline">Direct Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO STRIP -->
+  <div class="manifesto-strip">
+    <span class="manifesto-tag">[EXEC: PHILOSOPHY.SH]</span>
+    <div class="manifesto-quote">
+      &ldquo;The best software is invisible — it just works, anywhere, for anyone.&rdquo;
+    </div>
+  </div>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects">
+    <div class="section-tagline">$ ls -la ./projects/ --classified</div>
+    <h2 class="section-title">Shipped Systems &amp; Work</h2>
+
+    <!-- Project 01: AgentAudit -->
+    <article class="proc-card">
+      <div class="proc-header">
+        <div>
+          <span class="proc-index">[01 // FLAGSHIP]</span>
+          <span class="proc-title" style="margin-left: 8px;">AgentAudit</span>
+        </div>
+        <span class="proc-badge">LIVE PRODUCTION APP &amp; CLI</span>
+      </div>
+      <div class="proc-body">
+        <div>
+          <p class="proc-desc">
+            Autonomous multi-agent security auditor for GitHub PRs and Solidity smart contracts. Runs 4 parallel AI agents (<b>Guard</b>, <b>Speedster</b>, <b>Fixer</b>, and <b>Solidity</b>) concurrently via <code>asyncio</code> to catch vulnerabilities and output patch diffs in seconds.
+          </p>
+          <ul class="proc-specs">
+            <li>Parallel agent orchestration with live telemetry and A–D grading engine</li>
+            <li>Detects reentrancy, access-control flaws, and unsafe selfdestruct operations</li>
+            <li>FastAPI backend + React/TypeScript UI + standalone CLI audit utility</li>
+          </ul>
+          <div class="proc-tags">
+            <span class="proc-tag">FastAPI</span><span class="proc-tag">React 18</span><span class="proc-tag">Solidity</span><span class="proc-tag">Groq Llama-3</span><span class="proc-tag">asyncio</span><span class="proc-tag">TypeScript</span>
+          </div>
+          <div class="action-row">
+            <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener" class="btn-brutal btn-accent">▶ Launch App</a>
+            <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener" class="btn-brutal btn-outline">Source Code</a>
+          </div>
+        </div>
+        <div class="proc-media">
+          <img src="assets/agentaudit.png" alt="AgentAudit review dashboard" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 02: UPI Ledger -->
+    <article class="proc-card">
+      <div class="proc-header">
+        <div>
+          <span class="proc-index">[02 // PRIVACY-FIRST]</span>
+          <span class="proc-title" style="margin-left: 8px;">UPI Ledger</span>
+        </div>
+        <span class="proc-badge">100% CLIENT-SIDE COMPUTE</span>
+      </div>
+      <div class="proc-body">
+        <div>
+          <p class="proc-desc">
+            Privacy-obsessed financial statement analyzer. Turns Google Pay PDF statements and bank CSVs into categorized spending charts entirely in user browsers. Zero data touches external servers.
+          </p>
+          <ul class="proc-specs">
+            <li>On-device PDF extraction via <code>pdf.js</code> worker thread</li>
+            <li>Encrypted client-side storage powered by IndexedDB &amp; Dexie</li>
+            <li>Zero tracker scripts, zero backend dependency</li>
+          </ul>
+          <div class="proc-tags">
+            <span class="proc-tag">React 18</span><span class="proc-tag">TypeScript</span><span class="proc-tag">pdf.js</span><span class="proc-tag">Dexie</span><span class="proc-tag">Tailwind v4</span><span class="proc-tag">PWA</span>
+          </div>
+          <div class="action-row">
+            <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener" class="btn-brutal btn-accent">▶ Launch App</a>
+            <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener" class="btn-brutal btn-outline">Source Code</a>
+          </div>
+        </div>
+        <div class="proc-media">
+          <img src="assets/upi-ledger.png" alt="UPI Ledger UI" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 03: Object Classifier -->
+    <article class="proc-card">
+      <div class="proc-header">
+        <div>
+          <span class="proc-index">[03 // WEBGPU ACCELERATED]</span>
+          <span class="proc-title" style="margin-left: 8px;">Object Classifier</span>
+        </div>
+        <span class="proc-badge">ZERO-SHOT ON-DEVICE VISION</span>
+      </div>
+      <div class="proc-body">
+        <div>
+          <p class="proc-desc">
+            Instant camera object recognition without cloud APIs. Quantized OpenAI CLIP vision model runs directly on local device GPUs via WebGPU and Transformers.js.
+          </p>
+          <ul class="proc-specs">
+            <li>Open-vocabulary zero-shot classification with custom user labels</li>
+            <li>Zero API cost, zero network latency, 100% offline capability</li>
+            <li>PWA installable on mobile and desktop</li>
+          </ul>
+          <div class="proc-tags">
+            <span class="proc-tag">Transformers.js</span><span class="proc-tag">WebGPU</span><span class="proc-tag">ONNX Runtime</span><span class="proc-tag">CLIP</span><span class="proc-tag">PWA</span>
+          </div>
+          <div class="action-row">
+            <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener" class="btn-brutal btn-accent">▶ Launch App</a>
+            <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener" class="btn-brutal btn-outline">Source Code</a>
+          </div>
+        </div>
+        <div class="proc-media">
+          <img src="assets/object-classifier.png" alt="Object Classifier UI" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Project 04: Kabadiwala Connect -->
+    <article class="proc-card">
+      <div class="proc-header">
+        <div>
+          <span class="proc-index">[04 // SMART INDIA HACKATHON]</span>
+          <span class="proc-title" style="margin-left: 8px;">Kabadiwala Connect</span>
+        </div>
+        <span class="proc-badge">SIH 2026 INNOVATION</span>
+      </div>
+      <div class="proc-body" style="grid-template-columns: 1fr;">
+        <div>
+          <p class="proc-desc">
+            Fair-trade circular economy platform designed for informal scrap collectors. Integrates on-device MobileNetV2 image classification to ensure fair scrap valuation (3–8x price uplift) and transparent recycler matching.
+          </p>
+          <ul class="proc-specs">
+            <li>Edge ML classification running in TFLite without internet connection</li>
+            <li>Fair trade pricing ledger connecting scrap workers to certified recyclers</li>
+          </ul>
+          <div class="proc-tags">
+            <span class="proc-tag">Flutter</span><span class="proc-tag">Dart</span><span class="proc-tag">FastAPI</span><span class="proc-tag">TFLite</span><span class="proc-tag">MobileNetV2</span>
+          </div>
+          <div class="action-row">
+            <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener" class="btn-brutal btn-outline">GitHub Repository</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <!-- CAPABILITIES TABLE -->
+  <section style="margin-top: 36px;">
+    <div class="section-tagline">$ cat /sys/capabilities</div>
+    <h2 class="section-title">Technical Matrix</h2>
+
+    <div class="matrix-box">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>DOMAIN</th>
+            <th>TECHNOLOGIES &amp; TOOLING</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Languages</td>
+            <td>Python, TypeScript, JavaScript, Dart, C++, Solidity, SQL</td>
+          </tr>
+          <tr>
+            <td>AI / ML &amp; Edge</td>
+            <td>Autonomous Multi-Agents, Transformers.js, WebGPU, TFLite, ONNX, Prompt Ops</td>
+          </tr>
+          <tr>
+            <td>Web &amp; Backend</td>
+            <td>FastAPI, React 18, Next.js, Node.js, Vite, Tailwind CSS, REST APIs</td>
+          </tr>
+          <tr>
+            <td>Mobile &amp; DevOps</td>
+            <td>Flutter, Docker, Git / GitHub Actions, Linux, Playwright</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CONTACT BANNER -->
+  <section class="contact-box">
+    <div class="cmd-line" style="margin-bottom: 8px; color: #000;">
+      <span style="font-weight: 700;">$ curl -X POST /api/collaborate --header "Auth: Open"</span>
+    </div>
+    <h2 class="contact-heading">Initiate Handshake.</h2>
+    <p class="contact-sub">
+      Looking for high-ownership internship roles, hackathon teams, and challenging engineering problems.
+    </p>
+    <div class="action-row">
+      <a href="mailto:bt25cse080@gmail.com" class="btn-brutal" style="background: #000; color: #fff; box-shadow: 3px 3px 0px #fff;">
+        📧 Email: bt25cse080@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" class="btn-brutal" style="background: transparent; color: #000; border-color: #000;">
+        LinkedIn Profile
+      </a>
+      <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="btn-brutal" style="background: transparent; color: #000; border-color: #000;">
+        GitHub: @KIller13b
+      </a>
+    </div>
+    <div class="cmd-line" style="margin-top: 20px; color: #000;">
+      <span>connection established</span> <span class="cursor" style="background: #000;"></span>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>
