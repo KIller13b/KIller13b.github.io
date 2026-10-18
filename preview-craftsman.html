@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Developer</title>
+<meta name="description" content="Sunil Kharadi — 2nd year CS student at IIIT Nagpur. Building local-first tools and on-device AI." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0c0d12;
+    --surface: #13151f;
+    --surface-hover: #191c2b;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.18);
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --text-subtle: #64748b;
+    --accent: #a5b4fc;
+    --accent-hover: #c7d2fe;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 20px 100px;
+  }
+
+  /* Preview switcher floating pill */
+  .preview-bar {
+    position: sticky;
+    top: 16px;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 48px;
+  }
+  .preview-bar-inner {
+    background: rgba(19, 21, 31, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+  .preview-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-subtle);
+    padding: 0 8px;
+  }
+  .preview-btn {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .preview-btn:hover { color: #fff; }
+  .preview-btn.active {
+    background: #fff;
+    color: #0c0d12;
+    font-weight: 600;
+  }
+
+  .wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  header {
+    margin-bottom: 56px;
+  }
+  .name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .role {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+  .bio {
+    font-size: 1.05rem;
+    color: #cbd5e1;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .bio em {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: #fff;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.9rem;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover {
+    color: #fff;
+  }
+  .nav-links .arrow {
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+
+  /* Section styling */
+  section {
+    margin-bottom: 64px;
+  }
+  .section-heading {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-subtle);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+
+  /* Project Item */
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+  }
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .project-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .project-tagline {
+    font-size: 0.88rem;
+    color: var(--text-subtle);
+  }
+  .project-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .project-media {
+    margin: 8px 0;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+  .project-media img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0.92;
+    transition: opacity 0.25s ease;
+  }
+  .project-media:hover img {
+    opacity: 1;
+  }
+  .project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .project-stack {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-subtle);
+  }
+  .project-actions {
+    display: flex;
+    gap: 14px;
+    font-size: 0.86rem;
+  }
+  .project-actions a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    transition: color 0.15s;
+  }
+  .project-actions a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  /* Philosophy quote */
+  .quote-container {
+    padding: 24px 28px;
+    border-left: 2px solid var(--accent);
+    background: rgba(165, 180, 252, 0.03);
+    border-radius: 0 8px 8px 0;
+    margin: 40px 0;
+  }
+  .quote-body {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-style: italic;
+    color: #e2e8f0;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .quote-author {
+    font-size: 0.8rem;
+    color: var(--text-subtle);
+    font-family: var(--font-sans);
+  }
+
+  /* Notes / Principles */
+  .principles-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .principle-item {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .principle-item strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  /* Skills Minimal */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 16px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .skill-label {
+    color: var(--text-subtle);
+    font-weight: 500;
+  }
+  .skill-val {
+    color: #cbd5e1;
+  }
+
+  /* Footer */
+  footer {
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--text-subtle);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  footer a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: #fff;
+  }
+
+  @media (max-width: 600px) {
+    .skills-grid { grid-template-columns: 1fr; gap: 4px; margin-bottom: 12px; }
+    .project-header { flex-direction: column; gap: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Theme Switcher -->
+<div class="preview-bar">
+  <div class="preview-bar-inner">
+    <span class="preview-label">Style:</span>
+    <a href="preview-craftsman.html" class="preview-btn active">Human / Craftsman</a>
+    <a href="preview-bento.html" class="preview-btn">Bento</a>
+    <a href="preview-terminal.html" class="preview-btn">Terminal</a>
+    <a href="preview-brutalist.html" class="preview-btn">Brutalist</a>
+    <a href="index.html" class="preview-btn">Original</a>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- Header -->
+  <header>
+    <h1 class="name">Sunil Kharadi</h1>
+    <div class="role">2nd Year CSE &middot; IIIT Nagpur</div>
+    
+    <p class="bio">
+      I build software focused on local-first architecture and on-device machine learning. Most of my work starts from an itch to make tools that run fast, respect user privacy, and work without relying on expensive cloud servers.
+    </p>
+
+    <div class="nav-links">
+      <a href="https://github.com/KIller13b" target="_blank" rel="noopener">GitHub <span class="arrow">&nearr;</span></a>
+      <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener">LinkedIn <span class="arrow">&nearr;</span></a>
+      <a href="mailto:bt25cse080@gmail.com">bt25cse080@gmail.com <span class="arrow">&nearr;</span></a>
+      <a href="#projects">Projects <span class="arrow">&darr;</span></a>
+    </div>
+  </header>
+
+  <!-- Quote -->
+  <div class="quote-container">
+    <div class="quote-body">
+      &ldquo;The best software is invisible &mdash; it just works, anywhere, for anyone.&rdquo;
+    </div>
+    <div class="quote-author">Guiding engineering principle</div>
+  </div>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-heading">Selected Projects</div>
+
+    <div class="project-list">
+
+      <!-- AgentAudit -->
+      <article class="project">
+        <div class="project-header">
+          <div class="project-title">AgentAudit</div>
+          <div class="project-tagline">2026 &middot; Multi-Agent Security Scanner</div>
+        </div>
+        <p class="project-desc">
+          Smart contract audits can be slow and expensive. I built AgentAudit to run parallel AI checks on Solidity code and GitHub PR diffs &mdash; with separate agents checking for reentrancy, identifying performance bottlenecks, and drafting clean code fixes.
+        </p>
+        <div class="project-media">
+          <img src="assets/agentaudit.png" alt="AgentAudit Interface" />
+        </div>
+        <div class="project-footer">
+          <div class="project-stack">FastAPI &middot; React &middot; TypeScript &middot; Solidity &middot; Groq</div>
+          <div class="project-actions">
+            <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener">Live demo &nearr;</a>
+            <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener">Source &nearr;</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- UPI Ledger -->
+      <article class="project">
+        <div class="project-header">
+          <div class="project-title">UPI Ledger</div>
+          <div class="project-tagline">2026 &middot; Client-Side Financial Parser</div>
+        </div>
+        <p class="project-desc">
+          Most spending trackers ask you to upload bank statements to their servers. UPI Ledger parses Google Pay PDFs and bank CSVs entirely in your browser using <code>pdf.js</code> and IndexedDB. Even if you turn off Wi-Fi, your transactions parse cleanly and never leave your machine.
+        </p>
+        <div class="project-media">
+          <img src="assets/upi-ledger.png" alt="UPI Ledger Interface" />
+        </div>
+        <div class="project-footer">
+          <div class="project-stack">React 18 &middot; TypeScript &middot; pdf.js &middot; Dexie &middot; Tailwind</div>
+          <div class="project-actions">
+            <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener">Live app &nearr;</a>
+            <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener">Source &nearr;</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Object Classifier -->
+      <article class="project">
+        <div class="project-header">
+          <div class="project-title">In-Browser Object Classifier</div>
+          <div class="project-tagline">2026 &middot; WebGPU Vision Model</div>
+        </div>
+        <p class="project-desc">
+          An experiment in pushing in-browser AI inference. Runs a quantized CLIP model directly on the client's GPU via Transformers.js and WebGPU. Point your phone camera at anything and it classifies objects in real-time with zero backend cost.
+        </p>
+        <div class="project-media">
+          <img src="assets/object-classifier.png" alt="Object Classifier Interface" />
+        </div>
+        <div class="project-footer">
+          <div class="project-stack">Transformers.js &middot; WebGPU &middot; ONNX &middot; CLIP &middot; PWA</div>
+          <div class="project-actions">
+            <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener">Live app &nearr;</a>
+            <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener">Source &nearr;</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Kabadiwala Connect -->
+      <article class="project">
+        <div class="project-header">
+          <div class="project-title">Kabadiwala Connect</div>
+          <div class="project-tagline">SIH 2026 &middot; Offline Scrap Classifier</div>
+        </div>
+        <p class="project-desc">
+          Built for Smart India Hackathon 2026. Informal scrap collectors often get underpaid because identifying rare electronic scrap components requires specialized knowledge. We built an offline-first Flutter app with embedded MobileNetV2 on-device classification to give collectors fair valuation benchmarks on the spot.
+        </p>
+        <div class="project-footer">
+          <div class="project-stack">Flutter &middot; Dart &middot; FastAPI &middot; TFLite &middot; MobileNetV2</div>
+          <div class="project-actions">
+            <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener">Source code &nearr;</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Principles / Notes -->
+  <section>
+    <div class="section-heading">How I Approach Software</div>
+    <ul class="principles-list">
+      <li class="principle-item">
+        <strong>Privacy by architecture:</strong> Don't collect data you don't need, and run computation on the user's device whenever possible instead of sending sensitive files to an API.
+      </li>
+      <li class="principle-item">
+        <strong>Ship working software:</strong> I care more about building tools that actually solve an annoyance than writing abstract boilerplate or chasing trends.
+      </li>
+      <li class="principle-item">
+        <strong>Keep runtimes lean:</strong> If a tool can run with zero server dependencies or purely in WebGPU / WASM, it's cheaper to maintain and indefinitely resilient.
+      </li>
+    </ul>
+  </section>
+
+  <!-- Technical Toolbox -->
+  <section>
+    <div class="section-heading">Toolbox</div>
+    <div class="skills-grid">
+      <div class="skill-label">Languages</div>
+      <div class="skill-val">Python, TypeScript, JavaScript, Dart, C++, Solidity, SQL</div>
+
+      <div class="skill-label">AI &amp; Edge</div>
+      <div class="skill-val">LLM Agents, Transformers.js, WebGPU, TFLite, ONNX</div>
+
+      <div class="skill-label">Web &amp; Backend</div>
+      <div class="skill-val">React 18, FastAPI, Vite, Next.js, Node.js, Tailwind CSS</div>
+
+      <div class="skill-label">Mobile &amp; Tools</div>
+      <div class="skill-val">Flutter, Docker, Git, Linux, Playwright</div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section>
+    <div class="section-heading">Get in touch</div>
+    <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">
+      I'm currently looking for internships, hackathon teammates, and projects where I can build meaningful software.
+    </p>
+    <p style="font-size: 0.95rem;">
+      Drop me an email at <a href="mailto:bt25cse080@gmail.com" style="color: var(--accent); text-decoration: none; font-weight: 500;">bt25cse080@gmail.com</a> or connect on <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 500;">LinkedIn</a>.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <span>&copy; 2026 Sunil Kharadi</span>
+    <span>Nagpur, India</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
