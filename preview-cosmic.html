@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Cosmic Engineer &amp; Systems Developer</title>
+<meta name="description" content="Portfolio of Sunil Kharadi — 2nd Year CSE @ IIIT Nagpur. Full-Stack Systems, Edge AI, Local-First Architecture, and Multi-Agent Security." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* =====================================================================
+     CSS VARIABLES & DESIGN SYSTEM
+     ===================================================================== */
+  :root {
+    --bg: #0a0a10;
+    --bg-card: rgba(18, 19, 32, 0.72);
+    --bg-card-hover: rgba(26, 28, 48, 0.85);
+    --bg-elevated: #131422;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(139, 92, 246, 0.45);
+    --border-active: #8b5cf6;
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --accent: #8b5cf6;
+    --accent-glow: rgba(139, 92, 246, 0.28);
+    --accent-purple: #7317cf;
+    --accent-cyan: #38bdf8;
+    --accent-emerald: #10b981;
+    --accent-amber: #f59e0b;
+    
+    --radius-xl: 20px;
+    --radius-lg: 14px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* RECRUITER MODE THEME OVERRIDES */
+  body.recruiter-mode {
+    --bg: #0d0f17;
+    --bg-card: #131722;
+    --bg-card-hover: #181d2c;
+    --border: rgba(255, 255, 255, 0.12);
+    --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Background Ambient Nebulae */
+  .nebula-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background: 
+      radial-gradient(circle 800px at 15% 15%, rgba(115, 23, 207, 0.14), transparent 70%),
+      radial-gradient(circle 700px at 85% 35%, rgba(56, 189, 248, 0.08), transparent 60%),
+      radial-gradient(circle 600px at 50% 85%, rgba(139, 92, 246, 0.1), transparent 70%);
+    transition: opacity 0.4s ease;
+  }
+  body.recruiter-mode .nebula-glow {
+    opacity: 0.15;
+  }
+
+  /* Starfield Canvas */
+  #stars-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+  }
+  body.recruiter-mode #stars-canvas {
+    opacity: 0;
+  }
+
+  /* Main View Container */
+  .app-wrap {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* =====================================================================
+     STICKY NAVIGATION BAR & RECRUITER TOGGLE
+     ===================================================================== */
+  .top-nav {
+    position: sticky;
+    top: 12px;
+    z-index: 1000;
+    padding: 0 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .nav-glass-bar {
+    background: rgba(14, 15, 24, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
+    max-width: 95vw;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-glass-bar::-webkit-scrollbar { display: none; }
+
+  .theme-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .theme-label::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: var(--transition);
+  }
+  .nav-link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .nav-link.active {
+    background: linear-gradient(135deg, #8b5cf6, #7317cf);
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(139, 92, 246, 0.5);
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    flex-shrink: 0;
+  }
+
+  /* Recruiter Mode Button */
+  .recruiter-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    color: #c4b5fd;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+  }
+  .recruiter-toggle-btn:hover {
+    background: rgba(139, 92, 246, 0.28);
+    border-color: rgba(139, 92, 246, 0.6);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
+  }
+  body.recruiter-mode .recruiter-toggle-btn {
+    background: #10b981;
+    border-color: #10b981;
+    color: #064e3b;
+    font-weight: 800;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  }
+
+  /* =====================================================================
+     LAYOUT CONTAINERS (COSMIC VS RECRUITER)
+     ===================================================================== */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* View Containers */
+  #cosmic-view {
+    display: block;
+    animation: fadeIn 0.4s ease forwards;
+  }
+  #recruiter-view {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+  }
+
+  body.recruiter-mode #cosmic-view {
+    display: none;
+  }
+  body.recruiter-mode #recruiter-view {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* =====================================================================
+     COSMIC HERO SECTION
+     ===================================================================== */
+  .cosmic-hero {
+    padding: 50px 0 60px;
+    text-align: left;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: #c4b5fd;
+    margin-bottom: 24px;
+  }
+  .pulse-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 10px #10b981;
+    animation: pulseGlow 2s infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .hero-name {
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+  .hero-name .accent-text {
+    background: linear-gradient(135deg, #ffffff 20%, #c4b5fd 60%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Typing Role Display */
+  .typing-container {
+    font-family: var(--font-mono);
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 600;
+    color: #38bdf8;
+    margin-bottom: 20px;
+    min-height: 2.2em;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .typing-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.2em;
+    background-color: var(--accent-cyan);
+    margin-left: 4px;
+    animation: cursorBlink 0.9s infinite;
+    vertical-align: middle;
+  }
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-bio {
+    font-size: 1.12rem;
+    color: var(--text-secondary);
+    max-width: 720px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .hero-bio b {
+    color: #f1f5f9;
+  }
+
+  /* Action Buttons & CLI Resume Launcher */
+  .hero-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  /* CLI Styled Resume Launcher */
+  .cli-launcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(13, 14, 25, 0.95);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    padding: 10px 18px;
+    border-radius: var(--radius-md);
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    color: #f8fafc;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    user-select: none;
+  }
+  .cli-launcher:hover {
+    border-color: #8b5cf6;
+    background: rgba(22, 24, 42, 0.98);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35);
+  }
+  .cli-prefix {
+    color: var(--accent-cyan);
+    font-weight: 700;
+  }
+  .cli-command {
+    color: #e2e8f0;
+  }
+  .cli-badge {
+    font-size: 0.7rem;
+    background: rgba(139, 92, 246, 0.25);
+    color: #c4b5fd;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+
+  .btn-solid {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 22px;
+    background: linear-gradient(135deg, #8b5cf6, #7317cf);
+    color: #fff;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: var(--transition);
+    box-shadow: 0 6px 20px rgba(115, 23, 207, 0.35);
+    border: none;
+  }
+  .btn-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(139, 92, 246, 0.5);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: var(--transition);
+  }
+  .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
+
+  /* Social Glass Chips */
+  .social-strip {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .social-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  .social-chip:hover {
+    color: #fff;
+    border-color: rgba(139, 92, 246, 0.4);
+    background: rgba(139, 92, 246, 0.1);
+  }
+
+  /* Hero Stats Row */
+  .hero-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    backdrop-filter: blur(12px);
+    transition: var(--transition);
+  }
+  .stat-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+  .stat-num {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* =====================================================================
+     COSMIC PROJECTS SHOWCASE
+     ===================================================================== */
+  .section-title-wrap {
+    margin: 70px 0 32px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .section-heading {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  /* Feature Project Card */
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+  }
+  .project-card:hover {
+    border-color: var(--border-hover);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 40px var(--accent-glow);
+  }
+
+  .card-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .project-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #c4b5fd;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .project-status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #34d399;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .project-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .project-subtitle {
+    font-size: 1.02rem;
+    color: var(--accent-cyan);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  /* Browser Mockup Window */
+  .browser-mockup {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    background: #0f111a;
+    overflow: hidden;
+    margin-bottom: 24px;
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+  }
+  .mockup-header {
+    background: rgba(22, 24, 38, 0.95);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .mac-buttons {
+    display: flex;
+    gap: 6px;
+  }
+  .mac-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .mac-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.35);
+    padding: 2px 14px;
+    border-radius: 4px;
+    flex: 1;
+    max-width: 420px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mockup-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+    background: #141624;
+  }
+
+  /* Project Description & Pillars */
+  .project-details-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 28px;
+    margin-bottom: 24px;
+  }
+  .narrative-p {
+    font-size: 0.96rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .narrative-p b {
+    color: #f1f5f9;
+  }
+
+  /* Metrics Pillar */
+  .metrics-box {
+    background: rgba(14, 16, 26, 0.6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 12px;
+  }
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .metric-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .metric-val-glow {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #38bdf8;
+  }
+  .metric-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* Tech Tag Chips */
+  .tech-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .tech-chip {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .card-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Two Column Sub-Projects Grid */
+  .sub-projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .sub-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    backdrop-filter: blur(14px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+  }
+  .sub-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+  }
+  .sub-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #141724;
+  }
+  .sub-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sub-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(16, 185, 129, 0.15), transparent 70%);
+  }
+
+  /* =====================================================================
+     TECH STACK INTERACTIVE PILLS
+     ===================================================================== */
+  .skills-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 36px;
+    margin-bottom: 50px;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+  }
+  .skill-group-title {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .skill-chips-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .skill-pill {
+    font-size: 0.84rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-sm);
+    color: #e2e8f0;
+    transition: var(--transition);
+  }
+  .skill-pill:hover {
+    background: rgba(139, 92, 246, 0.15);
+    border-color: rgba(139, 92, 246, 0.4);
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  /* Manifesto Quote Box */
+  .manifesto-panel {
+    background: linear-gradient(135deg, rgba(115, 23, 207, 0.12), rgba(56, 189, 248, 0.08));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .manifesto-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  .manifesto-sub {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--accent-cyan);
+  }
+
+  /* =====================================================================
+     RECRUITER VIEW (EXECUTIVE 2-COLUMN LAYOUT)
+     ===================================================================== */
+  .recruiter-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 36px;
+    padding: 20px 0 80px;
+    align-items: start;
+  }
+
+  /* Sticky Left Column */
+  .recruiter-sidebar {
+    position: sticky;
+    top: 76px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .recruiter-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7317cf, #38bdf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(115, 23, 207, 0.4);
+  }
+  .recruiter-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 4px;
+  }
+  .recruiter-role {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+  .recruiter-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .contact-item {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .contact-item:hover {
+    color: var(--accent-cyan);
+  }
+  .recruiter-sidebar-section {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .sidebar-section-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  /* Right Main Panel */
+  .recruiter-main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .recruiter-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+  }
+  .recruiter-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+  }
+  .recruiter-block-title {
+    font-size: 1.25rem;
+    font-weight: 750;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Resume Project Item */
+  .resume-project-item {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .resume-project-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .proj-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .proj-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+  }
+  .proj-links {
+    display: flex;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+  .proj-link {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .proj-link:hover {
+    text-decoration: underline;
+  }
+  .proj-tech-line {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: #c4b5fd;
+    margin-bottom: 10px;
+  }
+  .proj-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .proj-bullets li {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    position: relative;
+    padding-left: 18px;
+    line-height: 1.55;
+  }
+  .proj-bullets li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+  .proj-bullets li b {
+    color: #f1f5f9;
+  }
+
+  /* =====================================================================
+     INTERACTIVE CLI RESUME MODAL & DRAWER
+     ===================================================================== */
+  .cli-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .cli-modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease forwards;
+  }
+  .cli-terminal-window {
+    width: 100%;
+    max-width: 680px;
+    background: #0d0e17;
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), 0 0 50px rgba(115, 23, 207, 0.3);
+    overflow: hidden;
+  }
+  .cli-window-topbar {
+    background: #141624;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .cli-close-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 4px;
+    border-radius: 4px;
+  }
+  .cli-close-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  .cli-output-body {
+    padding: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    color: #e2e8f0;
+    line-height: 1.6;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .cli-line-prompt {
+    color: var(--accent-cyan);
+    margin-bottom: 6px;
+  }
+  .cli-log-green { color: #34d399; }
+  .cli-log-purple { color: #c4b5fd; }
+  .cli-modal-actions {
+    display: flex;
+    gap: 10px;
+    padding: 14px 20px;
+    background: #111320;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    justify-content: flex-end;
+  }
+
+  /* =====================================================================
+     FOOTER
+     ===================================================================== */
+  footer {
+    padding: 60px 0 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: #fff;
+  }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #181b2a;
+    border: 1px solid #8b5cf6;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    z-index: 3000;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* =====================================================================
+     RESPONSIVE DESIGN
+     ===================================================================== */
+  @media (max-width: 900px) {
+    .project-details-grid {
+      grid-template-columns: 1fr;
+    }
+    .sub-projects-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-stats-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .recruiter-layout {
+      grid-template-columns: 1fr;
+    }
+    .recruiter-sidebar {
+      position: static;
+    }
+    .project-card {
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-stats-grid {
+      grid-template-columns: 1fr;
+    }
+    .hero-actions-row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .cli-launcher {
+      justify-content: center;
+    }
+    .btn-solid, .btn-outline {
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cosmic Nebula Ambience -->
+<div class="nebula-glow"></div>
+
+<!-- Interactive Particles Canvas -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- App Wrap -->
+<div class="app-wrap">
+
+  <!-- =====================================================================
+       NAVBAR WITH THEME SWITCHER & RECRUITER TOGGLE
+       ===================================================================== -->
+  <nav class="top-nav" aria-label="Theme Navigation">
+    <div class="nav-glass-bar">
+      <div class="theme-label">Editions</div>
+      <a href="preview-cosmic.html" class="nav-link active">🌌 Cosmic</a>
+      <a href="preview-behance.html" class="nav-link">Behance</a>
+      <a href="preview-brittany.html" class="nav-link">Brittany</a>
+      <a href="preview-craftsman.html" class="nav-link">Editorial</a>
+      <a href="preview-bento.html" class="nav-link">Bento</a>
+      <a href="preview-terminal.html" class="nav-link">Terminal</a>
+      <a href="index.html" class="nav-link">Original</a>
+
+      <div class="nav-divider"></div>
+
+      <!-- Recruiter Mode Toggle Button -->
+      <button id="recruiter-toggle" class="recruiter-toggle-btn" title="Toggle ultra-fast 2-column Recruiter View">
+        <span id="toggle-icon">⚡</span>
+        <span id="toggle-text">Recruiter Mode</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- =====================================================================
+       VIEW 1: IMMERSIVE COSMIC ENGINEER VIEW
+       ===================================================================== -->
+  <main id="cosmic-view" class="container">
+    
+    <!-- Hero Section -->
+    <header class="cosmic-hero">
+      <div class="status-pill">
+        <span class="pulse-indicator"></span>
+        <span>IIIT NAGPUR &middot; CSE '28 &middot; OPEN FOR INTERNSHIPS</span>
+      </div>
+
+      <h1 class="hero-name">
+        Sunil Kharadi<br>
+        <span class="accent-text">Systems &amp; Edge AI.</span>
+      </h1>
+
+      <!-- Typing Dynamic Subtitle -->
+      <div class="typing-container">
+        <span>&gt;&nbsp;</span>
+        <span id="typing-text">Full-Stack Systems Engineer</span>
+        <span class="typing-cursor"></span>
+      </div>
+
+      <p class="hero-bio">
+        2nd Year Computer Science &amp; Engineering undergrad at <b>IIIT Nagpur</b>. Building autonomous multi-agent pipelines, zero-cloud local-first privacy architectures, and running zero-cost machine learning directly on client hardware.
+      </p>
+
+      <!-- Action Row with CLI Resume Launcher -->
+      <div class="hero-actions-row">
+        <!-- Interactive CLI Launcher Button -->
+        <button id="cli-resume-trigger" class="cli-launcher" title="Click to simulate CLI resume download">
+          <span class="cli-prefix">$</span>
+          <span class="cli-command">curl -sL resume.pdf</span>
+          <span class="cli-badge">CLI RUN</span>
+        </button>
+
+        <a href="#projects" class="btn-solid">
+          Explore Projects &darr;
+        </a>
+
+        <a href="mailto:bt25cse080@gmail.com" class="btn-outline">
+          Get in Touch &rarr;
+        </a>
+      </div>
+
+      <!-- Social Links Row -->
+      <div class="social-strip">
+        <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="social-chip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          github/KIller13b
+        </a>
+        <a href="https://linkedin.com/in/sunil-kharadi-09b560427" target="_blank" rel="noopener" class="social-chip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          linkedin/sunil-kharadi
+        </a>
+        <a href="mailto:bt25cse080@gmail.com" class="social-chip">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          bt25cse080@gmail.com
+        </a>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="hero-stats-grid">
+        <div class="stat-card">
+          <div class="stat-num">~3.2s</div>
+          <div class="stat-label">Audit Turnaround (AgentAudit)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">0 Bytes</div>
+          <div class="stat-label">Cloud Leak (UPI Ledger)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">WebGPU</div>
+          <div class="stat-label">On-Device Vision Inference</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">SIH '26</div>
+          <div class="stat-label">Hackathon Lead &middot; Circular Tech</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- =====================================================================
+         FEATURED PROJECTS SECTION
+         ===================================================================== -->
+    <section id="projects">
+      <div class="section-title-wrap">
+        <div>
+          <div class="section-tag">[Flagship Engineering Work]</div>
+          <h2 class="section-heading">Featured Systems</h2>
+        </div>
+      </div>
+
+      <!-- PROJECT 01: AGENTAUDIT -->
+      <article class="project-card">
+        <div class="card-top-row">
+          <span class="project-badge">CASE STUDY // 01 &middot; MULTI-AGENT PIPELINE</span>
+          <span class="project-status">● PRODUCTION AUDITOR LIVE</span>
+        </div>
+
+        <h3 class="project-title">AgentAudit &mdash; Autonomous AI Security Scanner</h3>
+        <p class="project-subtitle">Automated Solidity &amp; GitHub Pull Request Vulnerability Audit Suite</p>
+
+        <!-- Browser Mockup -->
+        <div class="browser-mockup">
+          <div class="mockup-header">
+            <div class="mac-buttons">
+              <span class="mac-dot" style="background:#ef4444;"></span>
+              <span class="mac-dot" style="background:#eab308;"></span>
+              <span class="mac-dot" style="background:#22c55e;"></span>
+            </div>
+            <div class="mac-title">agentaudit-gamma.vercel.app &mdash; Autonomous Security Dashboard</div>
+          </div>
+          <img src="assets/agentaudit.png" alt="AgentAudit live security scanner interface" class="mockup-image" />
+        </div>
+
+        <div class="project-details-grid">
+          <div>
+            <p class="narrative-p">
+              <b>The Challenge:</b> Smart contract verification is prohibitively slow and expensive. Independent developers and hackathon hackers frequently deploy contracts plagued with reentrancy vulnerabilities and faulty access controls because automated, zero-friction verification did not exist.
+            </p>
+            <p class="narrative-p">
+              <b>The Architectural Solution:</b> Constructed a parallelized multi-agent audit pipeline using Python <code>asyncio</code> and Groq Llama-3. Four specialized agents coordinate simultaneously: a <b>Guard</b> for zero-day vulnerabilities, a <b>Speedster</b> for gas bottlenecks, a <b>Solidity Agent</b> for reentrancy analysis, and an automated <b>Fixer</b> that outputs git-ready patch diffs.
+            </p>
+          </div>
+
+          <div class="metrics-box">
+            <div class="metric-row">
+              <span class="metric-desc">Turnaround Time</span>
+              <span class="metric-val-glow">~3.2s</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Parallel Agents</span>
+              <span class="metric-val-glow">4 Coordinated</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Scoring Engine</span>
+              <span class="metric-val-glow">A &mdash; D Automated</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Fix Delivery</span>
+              <span class="metric-val-glow">Git-ready Diffs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-tags-row">
+          <span class="tech-chip">Python</span>
+          <span class="tech-chip">FastAPI</span>
+          <span class="tech-chip">React 18</span>
+          <span class="tech-chip">Solidity</span>
+          <span class="tech-chip">Groq Llama-3</span>
+          <span class="tech-chip">Multi-Agent Systems</span>
+          <span class="tech-chip">Asyncio</span>
+        </div>
+
+        <div class="card-buttons">
+          <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener" class="btn-solid">
+            Launch Live App &nearr;
+          </a>
+          <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener" class="btn-outline">
+            View GitHub Source
+          </a>
+        </div>
+      </article>
+
+      <!-- PROJECT 02: UPI LEDGER -->
+      <article class="project-card">
+        <div class="card-top-row">
+          <span class="project-badge">CASE STUDY // 02 &middot; LOCAL-FIRST ARCHITECTURE</span>
+          <span class="project-status" style="color: #38bdf8;">● 100% CLIENT-SIDE PARSING</span>
+        </div>
+
+        <h3 class="project-title">UPI Ledger &mdash; Offline PDF Financial Analytics</h3>
+        <p class="project-subtitle">Zero-Cloud In-Browser Statement Extractor with IndexedDB Persistence</p>
+
+        <!-- Browser Mockup -->
+        <div class="browser-mockup">
+          <div class="mockup-header">
+            <div class="mac-buttons">
+              <span class="mac-dot" style="background:#ef4444;"></span>
+              <span class="mac-dot" style="background:#eab308;"></span>
+              <span class="mac-dot" style="background:#22c55e;"></span>
+            </div>
+            <div class="mac-title">killer13b.github.io/upi-ledger &mdash; Client-Side Financial Parser</div>
+          </div>
+          <img src="assets/upi-ledger.png" alt="UPI Ledger statement extraction interface" class="mockup-image" />
+        </div>
+
+        <div class="project-details-grid">
+          <div>
+            <p class="narrative-p">
+              <b>The Challenge:</b> Bank and UPI statement PDFs contain sensitive financial telemetry. Most budgeting tools force users to upload PDFs to remote servers, exposing private transactions to breach risks.
+            </p>
+            <p class="narrative-p">
+              <b>The Architectural Solution:</b> Engineered a 100% offline-first parsing engine running completely inside the browser client. Utilizes <code>pdf.js</code> worker threads to parse password-protected statement tables locally. Employs Dexie (IndexedDB) for encrypted local storage and fast relational analytics with zero external API calls.
+            </p>
+          </div>
+
+          <div class="metrics-box">
+            <div class="metric-row">
+              <span class="metric-desc">Cloud Transmission</span>
+              <span class="metric-val-glow">0 Bytes</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Offline Capability</span>
+              <span class="metric-val-glow">100% Offline</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Storage Engine</span>
+              <span class="metric-val-glow">Dexie / IndexedDB</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-desc">Security Perimeter</span>
+              <span class="metric-val-glow">Client Hardware Only</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tech-tags-row">
+          <span class="tech-chip">React 18</span>
+          <span class="tech-chip">TypeScript</span>
+          <span class="tech-chip">pdf.js Web Workers</span>
+          <span class="tech-chip">Dexie (IndexedDB)</span>
+          <span class="tech-chip">Tailwind CSS</span>
+          <span class="tech-chip">Recharts</span>
+        </div>
+
+        <div class="card-buttons">
+          <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener" class="btn-solid">
+            Launch Web App &nearr;
+          </a>
+          <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener" class="btn-outline">
+            View GitHub Source
+          </a>
+        </div>
+      </article>
+
+      <!-- TWO SUB-PROJECTS GRID -->
+      <div class="sub-projects-grid">
+        
+        <!-- PROJECT 03: OBJECT CLASSIFIER -->
+        <article class="sub-card">
+          <div>
+            <div class="sub-thumb">
+              <img src="assets/object-classifier.png" alt="In-Browser Object Classifier UI" />
+            </div>
+            <div class="card-top-row" style="margin-bottom: 8px;">
+              <span class="project-badge">EDGE AI // 03</span>
+              <span class="project-status">● CLIENT WEBGPU</span>
+            </div>
+            <h4 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px;">
+              In-Browser Object Classifier
+            </h4>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">
+              Zero-shot open-vocabulary computer vision running natively inside user browsers. Employs Transformers.js and WebGPU acceleration to run quantized CLIP models directly on client hardware with zero backend compute overhead.
+            </p>
+            <div class="tech-tags-row" style="margin-bottom: 16px;">
+              <span class="tech-chip">Transformers.js</span>
+              <span class="tech-chip">WebGPU</span>
+              <span class="tech-chip">ONNX</span>
+              <span class="tech-chip">Client Vision</span>
+            </div>
+          </div>
+
+          <div class="card-buttons">
+            <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener" class="btn-solid" style="padding: 8px 16px; font-size: 0.85rem;">
+              Launch Demo &nearr;
+            </a>
+            <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener" class="btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">
+              Source
+            </a>
+          </div>
+        </article>
+
+        <!-- PROJECT 04: KABADIWALA CONNECT -->
+        <article class="sub-card">
+          <div>
+            <div class="sub-thumb">
+              <div class="sub-placeholder">
+                <span style="font-size: 2.8rem; margin-bottom: 6px;">♻️</span>
+                <span style="font-family: var(--font-mono); font-size: 0.76rem; color: #34d399; font-weight: 700;">SIH 2026 TEAM INNOVATION</span>
+              </div>
+            </div>
+            <div class="card-top-row" style="margin-bottom: 8px;">
+              <span class="project-badge">HACKATHON // 04</span>
+              <span class="project-status" style="color: #f59e0b;">● CIRCULAR ECONOMY</span>
+            </div>
+            <h4 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 8px;">
+              Kabadiwala Connect
+            </h4>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6;">
+              Fair-trade e-waste circular platform built for informal scrap collectors. Integrates on-device MobileNetV2 classification in TFLite to identify valuable electronic components offline, achieving 3–8x fair price uplift.
+            </p>
+            <div class="tech-tags-row" style="margin-bottom: 16px;">
+              <span class="tech-chip">Flutter</span>
+              <span class="tech-chip">Dart</span>
+              <span class="tech-chip">TFLite</span>
+              <span class="tech-chip">MobileNetV2</span>
+              <span class="tech-chip">FastAPI</span>
+            </div>
+          </div>
+
+          <div class="card-buttons">
+            <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener" class="btn-outline" style="padding: 7px 14px; font-size: 0.85rem; width: 100%; justify-content: center;">
+              View GitHub Repo &nearr;
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Engineering Philosophy Panel -->
+    <div class="manifesto-panel">
+      <div class="manifesto-text">
+        &ldquo;The best software is invisible &mdash; it just works, anywhere, for anyone.&rdquo;
+      </div>
+      <div class="manifesto-sub">&mdash; Sunil Kharadi &middot; Engineering Philosophy</div>
+    </div>
+
+    <!-- Technical Skills Matrix -->
+    <section class="skills-container">
+      <div class="section-tag">[Engineering Stack]</div>
+      <h3 style="font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 8px;">
+        Languages &amp; Technologies
+      </h3>
+      <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 24px;">
+        Hands-on systems stack spanning low-level programming, edge AI models, and modern web applications.
+      </p>
+
+      <div class="skills-grid">
+        <div>
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-chips-wrap">
+            <span class="skill-pill">C</span>
+            <span class="skill-pill">C++</span>
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">TypeScript</span>
+            <span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">Java</span>
+            <span class="skill-pill">Solidity</span>
+            <span class="skill-pill">Dart</span>
+            <span class="skill-pill">SQL</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="skill-group-title">Frameworks &amp; Core Libs</div>
+          <div class="skill-chips-wrap">
+            <span class="skill-pill">React 18</span>
+            <span class="skill-pill">FastAPI</span>
+            <span class="skill-pill">Tailwind CSS</span>
+            <span class="skill-pill">Flutter</span>
+            <span class="skill-pill">Dexie (IndexedDB)</span>
+            <span class="skill-pill">pdf.js</span>
+            <span class="skill-pill">Asyncio</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="skill-group-title">AI &amp; Client Compute</div>
+          <div class="skill-chips-wrap">
+            <span class="skill-pill">WebGPU</span>
+            <span class="skill-pill">Transformers.js</span>
+            <span class="skill-pill">TFLite</span>
+            <span class="skill-pill">ONNX Runtime</span>
+            <span class="skill-pill">Groq Llama-3</span>
+            <span class="skill-pill">MobileNetV2</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="skill-group-title">DevOps &amp; Infrastructure</div>
+          <div class="skill-chips-wrap">
+            <span class="skill-pill">Git / GitHub</span>
+            <span class="skill-pill">Linux</span>
+            <span class="skill-pill">Docker</span>
+            <span class="skill-pill">Vercel</span>
+            <span class="skill-pill">GitHub Pages</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       VIEW 2: FAST RECRUITER MODE (EXECUTIVE 2-COLUMN LAYOUT)
+       ===================================================================== -->
+  <main id="recruiter-view" class="container">
+    <div class="recruiter-layout">
+      
+      <!-- Left Column: Identity, Education, Quick Actions -->
+      <aside class="recruiter-sidebar">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <div class="recruiter-avatar">SK</div>
+          <div>
+            <h2 class="recruiter-name">Sunil Kharadi</h2>
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; color: #34d399;">● Open to Internships (Summer '26)</div>
+          </div>
+        </div>
+
+        <p class="recruiter-role">
+          <b>2nd Year B.Tech CSE @ IIIT Nagpur</b> (Graduating May 2028). Systems Developer focusing on Edge AI, Local-First Privacy, and Distributed Security.
+        </p>
+
+        <!-- Direct Contact Points -->
+        <div class="recruiter-contact-list">
+          <a href="mailto:bt25cse080@gmail.com" class="contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            bt25cse080@gmail.com
+          </a>
+          <a href="https://github.com/KIller13b" target="_blank" rel="noopener" class="contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            github.com/KIller13b
+          </a>
+          <a href="https://linkedin.com/in/sunil-kharadi-09b560427" target="_blank" rel="noopener" class="contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            linkedin.com/in/sunil-kharadi-09b560427
+          </a>
+        </div>
+
+        <!-- Education -->
+        <div class="recruiter-sidebar-section">
+          <div class="sidebar-section-title">Education</div>
+          <div style="font-weight: 700; color: #fff; font-size: 0.9rem;">Indian Institute of Information Technology (IIIT), Nagpur</div>
+          <div style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px;">B.Tech in Computer Science &amp; Engineering</div>
+          <div style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-cyan); margin-top: 4px;">Expected Graduation: 2028</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">Relevant Courses: Data Structures &amp; Algorithms, Computer Organization, Operating Systems, Database Management Systems.</div>
+        </div>
+
+        <!-- Technical Competencies Summary -->
+        <div class="recruiter-sidebar-section">
+          <div class="sidebar-section-title">Technical Competencies</div>
+          <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.82rem; color: var(--text-secondary);">
+            <div><b>Languages:</b> C, C++, Python, TypeScript, Java, Dart, Solidity, SQL</div>
+            <div><b>Frontend:</b> React 18, Tailwind CSS, pdf.js, Recharts</div>
+            <div><b>Backend &amp; DB:</b> FastAPI, Asyncio, Dexie (IndexedDB), REST APIs</div>
+            <div><b>AI &amp; Edge:</b> WebGPU, Transformers.js, TFLite, Groq Llama-3, ONNX</div>
+            <div><b>Tools:</b> Git, Linux, Docker, GitHub Actions, Vercel</div>
+          </div>
+        </div>
+
+        <button id="cli-resume-trigger-sidebar" class="btn-solid" style="width: 100%; justify-content: center; font-size: 0.86rem; padding: 10px;">
+          Download Resume (PDF) &darr;
+        </button>
+      </aside>
+
+      <!-- Right Column: Projects & Hackathons Structured for Fast Review -->
+      <section class="recruiter-main">
+        
+        <!-- Summary Block -->
+        <div class="recruiter-block">
+          <div class="recruiter-block-header">
+            <h3 class="recruiter-block-title">Executive Summary</h3>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #34d399;">● FAST SCAN</span>
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7;">
+            Undergraduate software engineer with a track record of building production-grade web applications, local-first zero-cloud systems, and on-device machine learning tools. Experienced in designing parallel asynchronous architectures, client-side cryptographic storage, and winning team leadership in national hackathons (Smart India Hackathon 2026).
+          </p>
+        </div>
+
+        <!-- Key Projects Block -->
+        <div class="recruiter-block">
+          <div class="recruiter-block-header">
+            <h3 class="recruiter-block-title">Featured Projects</h3>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-cyan);">4 REPOSITORIES</span>
+          </div>
+
+          <!-- Item 1: AgentAudit -->
+          <div class="resume-project-item">
+            <div class="proj-header-row">
+              <span class="proj-name">AgentAudit &mdash; Multi-Agent Security Audit Engine</span>
+              <div class="proj-links">
+                <a href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener" class="proj-link">[Live Demo]</a>
+                <a href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener" class="proj-link">[GitHub]</a>
+              </div>
+            </div>
+            <div class="proj-tech-line">Python &middot; FastAPI &middot; React 18 &middot; Solidity &middot; Groq Llama-3 &middot; Asyncio</div>
+            <ul class="proj-bullets">
+              <li>Architected a multi-agent system executing <b>4 specialized agents in parallel</b> (Vulnerability Guard, Gas Optimizer, Reentrancy Analyzer, Patch Fixer) cutting security review cycles to <b>~3.2 seconds</b>.</li>
+              <li>Integrated Groq-accelerated Llama-3 LLMs with deterministic static syntax checkers for zero-token-overhead parsing.</li>
+              <li>Engineered automatic git patch diff generation allowing developers to merge vulnerability remediations with one click.</li>
+            </ul>
+          </div>
+
+          <!-- Item 2: UPI Ledger -->
+          <div class="resume-project-item">
+            <div class="proj-header-row">
+              <span class="proj-name">UPI Ledger &mdash; 100% Client-Side PDF Statement Parser</span>
+              <div class="proj-links">
+                <a href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener" class="proj-link">[Live Demo]</a>
+                <a href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener" class="proj-link">[GitHub]</a>
+              </div>
+            </div>
+            <div class="proj-tech-line">React 18 &middot; TypeScript &middot; pdf.js &middot; Dexie (IndexedDB) &middot; Tailwind CSS</div>
+            <ul class="proj-bullets">
+              <li>Constructed an offline-first financial analytics engine transmitting <b>0 bytes</b> to any server, eliminating data privacy breach vectors.</li>
+              <li>Built custom table extraction pipelines running inside <code>pdf.js</code> web worker threads for non-blocking UI rendering during large multi-page PDF statements.</li>
+              <li>Engineered high-performance client queries and time-series aggregation using Dexie.js on top of browser IndexedDB.</li>
+            </ul>
+          </div>
+
+          <!-- Item 3: Object Classifier -->
+          <div class="resume-project-item">
+            <div class="proj-header-row">
+              <span class="proj-name">In-Browser Object Classifier &mdash; WebGPU Accelerated Vision</span>
+              <div class="proj-links">
+                <a href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener" class="proj-link">[Live Demo]</a>
+                <a href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener" class="proj-link">[GitHub]</a>
+              </div>
+            </div>
+            <div class="proj-tech-line">Transformers.js &middot; WebGPU &middot; ONNX &middot; PWA</div>
+            <ul class="proj-bullets">
+              <li>Implemented zero-shot open-vocabulary image classification running entirely in the browser using quantized vision transformers.</li>
+              <li>Utilized WebGPU hardware acceleration for sub-100ms inference times on modern GPUs with zero backend infrastructure costs.</li>
+            </ul>
+          </div>
+
+          <!-- Item 4: Kabadiwala Connect -->
+          <div class="resume-project-item">
+            <div class="proj-header-row">
+              <span class="proj-name">Kabadiwala Connect &mdash; Circular Economy E-Waste Platform</span>
+              <div class="proj-links">
+                <a href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener" class="proj-link">[GitHub]</a>
+              </div>
+            </div>
+            <div class="proj-tech-line">Flutter &middot; Dart &middot; FastAPI &middot; TFLite &middot; MobileNetV2</div>
+            <ul class="proj-bullets">
+              <li>Led team developing an AI-assisted fair-trade platform for informal scrap collectors for Smart India Hackathon (SIH 2026).</li>
+              <li>Embedded offline MobileNetV2 image classification models via TensorFlow Lite directly into the mobile client to identify high-value circuit components without internet connectivity.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Leadership & Achievements -->
+        <div class="recruiter-block">
+          <div class="recruiter-block-header">
+            <h3 class="recruiter-block-title">Leadership &amp; Hackathons</h3>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #f59e0b;">COMPETITIONS</span>
+          </div>
+          <div class="resume-project-item">
+            <div class="proj-header-row">
+              <span class="proj-name">Smart India Hackathon (SIH 2026) &mdash; Team Lead</span>
+              <span style="font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted);">2026</span>
+            </div>
+            <ul class="proj-bullets">
+              <li>Directed technical architecture and system integration for a 6-member team engineering circular economy solutions for informal waste management.</li>
+              <li>Presented working prototype combining on-device computer vision and offline-first mobile sync to national evaluators.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- =====================================================================
+       CLI TERMINAL RESUME MODAL
+       ===================================================================== -->
+  <div id="cli-modal" class="cli-modal-overlay">
+    <div class="cli-terminal-window">
+      <div class="cli-window-topbar">
+        <div class="mac-buttons">
+          <span class="mac-dot" style="background:#ef4444;"></span>
+          <span class="mac-dot" style="background:#eab308;"></span>
+          <span class="mac-dot" style="background:#22c55e;"></span>
+        </div>
+        <div class="mac-title">bash &mdash; sunil-kharadi@iiitn:~ (resume.sh)</div>
+        <button id="cli-modal-close" class="cli-close-btn">&times;</button>
+      </div>
+      
+      <div class="cli-output-body" id="cli-output">
+        <div class="cli-line-prompt">$ curl -sL https://killer13b.github.io/resume.json</div>
+        <div id="cli-stream">
+          <div>[INFO] Resolving host killer13b.github.io... Connected.</div>
+          <div>[HTTP] GET /resume.json HTTP/2 -> 200 OK</div>
+          <div class="cli-log-green">[SUCCESS] Transferred 48.2 KB in 0.042s (1.14 MB/s)</div>
+          <br>
+          <div class="cli-log-purple">--------------------------------------------------</div>
+          <div><b>SUNIL KHARADI</b> &mdash; B.Tech CSE @ IIIT Nagpur ('28)</div>
+          <div>Email: bt25cse080@gmail.com | GitHub: KIller13b</div>
+          <div class="cli-log-purple">--------------------------------------------------</div>
+          <div><b>CORE SKILLS:</b> C, C++, Python, TypeScript, React 18, FastAPI, WebGPU, Dexie</div>
+          <div><b>FLAGSHIP:</b> AgentAudit (Multi-Agent Security Scanner, ~3.2s turnaround)</div>
+          <div><b>PRIVACY:</b> UPI Ledger (0 Bytes to Cloud, In-Browser Parsing)</div>
+          <div><b>STATUS:</b> Open for Software Engineering Internships Summer 2026</div>
+          <div class="cli-log-purple">--------------------------------------------------</div>
+        </div>
+      </div>
+
+      <div class="cli-modal-actions">
+        <button id="cli-copy-btn" class="btn-outline" style="font-size: 0.8rem; padding: 6px 14px;">
+          📋 Copy Profile Text
+        </button>
+        <button id="cli-toggle-recruiter" class="btn-solid" style="font-size: 0.8rem; padding: 6px 14px;">
+          ⚡ Switch to Recruiter View
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">Copied to clipboard!</div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p style="margin-bottom: 8px;">
+        Designed &amp; Engineered by <b>Sunil Kharadi</b> &middot; IIIT Nagpur &copy; 2026
+      </p>
+      <p style="font-family: var(--font-mono); font-size: 0.78rem;">
+        Powered by client WebGPU, Local-First Dexie &middot; Inspired by Cosmic UI &amp; Squidwardcodes
+      </p>
+    </div>
+  </footer>
+
+</div>
+
+<!-- =====================================================================
+     JAVASCRIPT: CANVAS PARTICLES, RECRUITER TOGGLE, TYPING & CLI MODAL
+     ===================================================================== -->
+<script>
+  // ---------------------------------------------------------------------
+  // 1. STARFIELD PARTICLES CANVAS
+  // ---------------------------------------------------------------------
+  const canvas = document.getElementById('stars-canvas');
+  const ctx = canvas.getContext('2d');
+  let animationFrameId;
+  let stars = [];
+  const STAR_COUNT = 90;
+  let mouse = { x: -1000, y: -1000 };
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    initStars();
+  });
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8 + 0.6,
+        alpha: Math.random() * 0.7 + 0.3,
+        baseAlpha: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: Math.random() * 0.02 + 0.008,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        color: Math.random() > 0.4 ? '#c4b5fd' : (Math.random() > 0.5 ? '#38bdf8' : '#ffffff')
+      });
+    }
+  }
+
+  function renderStars(time) {
+    if (document.body.classList.contains('recruiter-mode')) {
+      // Don't waste GPU in recruiter mode
+      animationFrameId = requestAnimationFrame(renderStars);
+      return;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let star of stars) {
+      star.x += star.vx;
+      star.y += star.vy;
+
+      if (star.x < 0) star.x = canvas.width;
+      if (star.x > canvas.width) star.x = 0;
+      if (star.y < 0) star.y = canvas.height;
+      if (star.y > canvas.height) star.y = 0;
+
+      // Twinkle
+      const twinkle = Math.sin(time * 0.002 * star.twinkleSpeed * 100 + star.twinkleOffset);
+      const currentAlpha = Math.max(0.15, star.baseAlpha + twinkle * 0.25);
+
+      // Mouse gentle hover reaction
+      const dx = mouse.x - star.x;
+      const dy = mouse.y - star.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      let renderSize = star.size;
+      if (dist < 100) {
+        renderSize += (1 - dist / 100) * 1.2;
+      }
+
+      ctx.save();
+      ctx.globalAlpha = currentAlpha;
+      ctx.fillStyle = star.color;
+      ctx.shadowBlur = star.size > 1.2 ? 6 : 0;
+      ctx.shadowColor = star.color;
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, renderSize, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    animationFrameId = requestAnimationFrame(renderStars);
+  }
+
+  resizeCanvas();
+  initStars();
+  animationFrameId = requestAnimationFrame(renderStars);
+
+  // ---------------------------------------------------------------------
+  // 2. RECRUITER MODE TOGGLE WITH PERSISTENCE
+  // ---------------------------------------------------------------------
+  const recruiterToggleBtn = document.getElementById('recruiter-toggle');
+  const toggleIcon = document.getElementById('toggle-icon');
+  const toggleText = document.getElementById('toggle-text');
+
+  function updateRecruiterModeUI(isRecruiter) {
+    if (isRecruiter) {
+      document.body.classList.add('recruiter-mode');
+      toggleIcon.textContent = '🌌';
+      toggleText.textContent = 'Cosmic View';
+      recruiterToggleBtn.setAttribute('title', 'Switch back to immersive Cosmic View');
+    } else {
+      document.body.classList.remove('recruiter-mode');
+      toggleIcon.textContent = '⚡';
+      toggleText.textContent = 'Recruiter Mode';
+      recruiterToggleBtn.setAttribute('title', 'Switch to ultra-fast 2-column Recruiter View');
+    }
+  }
+
+  // Load stored preference
+  const savedMode = localStorage.getItem('portfolio_recruiter_mode');
+  if (savedMode === 'true') {
+    updateRecruiterModeUI(true);
+  }
+
+  recruiterToggleBtn.addEventListener('click', () => {
+    const isCurrentlyRecruiter = document.body.classList.contains('recruiter-mode');
+    const newMode = !isCurrentlyRecruiter;
+    updateRecruiterModeUI(newMode);
+    localStorage.setItem('portfolio_recruiter_mode', newMode ? 'true' : 'false');
+    showToast(newMode ? '⚡ Recruiter Mode Activated' : '🌌 Cosmic Mode Activated');
+  });
+
+  // ---------------------------------------------------------------------
+  // 3. TYPING ROLE ROTATION ANIMATION
+  // ---------------------------------------------------------------------
+  const typingTextEl = document.getElementById('typing-text');
+  const roles = [
+    "Full-Stack Systems Engineer",
+    "Edge AI & Local-First Builder",
+    "Autonomous Security Researcher",
+    "CSE Undergrad @ IIIT Nagpur"
+  ];
+  let roleIdx = 0;
+  let charIdx = 0;
+  let isDeleting = false;
+  let typingSpeed = 75;
+
+  function typeRoleLoop() {
+    const currentRole = roles[roleIdx];
+
+    if (isDeleting) {
+      charIdx--;
+      typingTextEl.textContent = currentRole.substring(0, charIdx);
+      typingSpeed = 35;
+    } else {
+      charIdx++;
+      typingTextEl.textContent = currentRole.substring(0, charIdx);
+      typingSpeed = 70;
+    }
+
+    if (!isDeleting && charIdx === currentRole.length) {
+      typingSpeed = 2200; // Pause at full word
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      roleIdx = (roleIdx + 1) % roles.length;
+      typingSpeed = 400; // Pause before typing next
+    }
+
+    setTimeout(typeRoleLoop, typingSpeed);
+  }
+  typeRoleLoop();
+
+  // ---------------------------------------------------------------------
+  // 4. CLI TERMINAL RESUME LAUNCHER & MODAL
+  // ---------------------------------------------------------------------
+  const cliTrigger = document.getElementById('cli-resume-trigger');
+  const cliSidebarTrigger = document.getElementById('cli-resume-trigger-sidebar');
+  const cliModal = document.getElementById('cli-modal');
+  const cliModalClose = document.getElementById('cli-modal-close');
+  const cliCopyBtn = document.getElementById('cli-copy-btn');
+  const cliToggleRecruiter = document.getElementById('cli-toggle-recruiter');
+  const toast = document.getElementById('toast');
+
+  function openCliModal() {
+    cliModal.classList.add('active');
+  }
+  function closeCliModal() {
+    cliModal.classList.remove('active');
+  }
+
+  if (cliTrigger) cliTrigger.addEventListener('click', openCliModal);
+  if (cliSidebarTrigger) cliSidebarTrigger.addEventListener('click', openCliModal);
+  if (cliModalClose) cliModalClose.addEventListener('click', closeCliModal);
+
+  cliModal.addEventListener('click', (e) => {
+    if (e.target === cliModal) closeCliModal();
+  });
+
+  // Switch to recruiter mode from modal
+  if (cliToggleRecruiter) {
+    cliToggleRecruiter.addEventListener('click', () => {
+      closeCliModal();
+      updateRecruiterModeUI(true);
+      localStorage.setItem('portfolio_recruiter_mode', 'true');
+      showToast('⚡ Switched to Recruiter Mode');
+    });
+  }
+
+  // Copy Profile Text
+  if (cliCopyBtn) {
+    cliCopyBtn.addEventListener('click', () => {
+      const resumeSummary = `SUNIL KHARADI — 2nd Year CSE @ IIIT Nagpur ('28)
+Email: bt25cse080@gmail.com | GitHub: github.com/KIller13b | LinkedIn: linkedin.com/in/sunil-kharadi-09b560427
+
+SKILLS:
+- Languages: C, C++, Python, TypeScript, JavaScript, Java, Dart, Solidity, SQL
+- Frontend: React 18, Tailwind CSS, pdf.js, Recharts, Dexie (IndexedDB)
+- Backend & Edge AI: FastAPI, Asyncio, WebGPU, Transformers.js, TFLite, ONNX, Groq Llama-3
+
+PROJECTS:
+1. AgentAudit — Multi-Agent AI Security Scanner (~3.2s turnaround, parallel Python asyncio, git-ready diffs)
+   Demo: https://agentaudit-gamma.vercel.app | Code: https://github.com/KIller13b/agentaudit
+2. UPI Ledger — Client-Side PDF Statement Parser (0 bytes to cloud, 100% offline-first, Dexie IndexedDB)
+   Demo: https://killer13b.github.io/upi-ledger/ | Code: https://github.com/KIller13b/upi-ledger
+3. In-Browser Object Classifier — Zero-Shot Vision (WebGPU client inference, Transformers.js, ONNX)
+   Demo: https://killer13b.github.io/object-classifier/ | Code: https://github.com/KIller13b/object-classifier
+4. Kabadiwala Connect — E-Waste Circular Platform (SIH 2026 Team Lead, MobileNetV2 on-device TFLite)`;
+
+      navigator.clipboard.writeText(resumeSummary).then(() => {
+        showToast('📋 Profile Summary Copied!');
+      }).catch(() => {
+        showToast('Could not access clipboard');
+      });
+    });
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  }
+</script>
+
+</body>
+</html>
