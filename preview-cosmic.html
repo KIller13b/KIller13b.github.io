@@ -90,7 +90,7 @@ body {
 }
 
 /* =====================================================================
-   THEME SWITCHER BAR & FLOATING RECRUITER TOGGLE
+   THEME SWITCHER BAR
    ===================================================================== */
 .theme-switch-bar {
   position: fixed;
@@ -142,40 +142,6 @@ body {
   box-shadow: 0 0 14px rgba(115, 23, 207, 0.6);
 }
 
-/* Recruiter Toggle Button (Fixed Top-Right like Squidwardcodes) */
-.recruiter-toggle {
-  position: fixed;
-  top: 14px;
-  right: 20px;
-  z-index: 101;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(13, 13, 22, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #ffffff;
-  font-family: var(--font-sans);
-  font-size: 0.86rem;
-  font-weight: 700;
-  padding: 8px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  backdrop-filter: blur(16px);
-  transition: all 0.25s ease;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-.recruiter-toggle:hover {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 20px rgba(115, 23, 207, 0.5);
-  transform: translateY(-2px);
-}
-body.recruiter-mode .recruiter-toggle {
-  background: var(--spotify-green);
-  border-color: var(--spotify-green);
-  color: #052e16;
-  font-weight: 800;
-  box-shadow: 0 0 24px rgba(29, 185, 84, 0.5);
-}
 
 /* =====================================================================
    SECTIONS & HERO
@@ -752,44 +718,6 @@ h1 {
   line-height: 1.6;
 }
 
-/* =====================================================================
-   RECRUITER MODE TRANSFORMATIONS (body.recruiter-mode)
-   ===================================================================== */
-body.recruiter-mode #particles-container,
-body.recruiter-mode .cosmic-nebula,
-body.recruiter-mode .music-player-container,
-body.recruiter-mode .typing-cursor {
-  display: none !important;
-}
-
-body.recruiter-mode .section {
-  min-height: auto;
-  padding: 60px 8%;
-}
-
-body.recruiter-mode #hero {
-  padding-top: 80px;
-}
-
-body.recruiter-mode .projects-grid {
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-body.recruiter-mode .project-box {
-  flex-direction: row;
-  align-items: center;
-}
-body.recruiter-mode .project-img-wrap {
-  width: 200px;
-  height: 100%;
-  aspect-ratio: auto;
-  border-bottom: none;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  flex-shrink: 0;
-}
-body.recruiter-mode .project-body {
-  padding: 16px 20px;
-}
 
 /* =====================================================================
    COMMAND PALETTE (CTRL + K / CMD + K)
@@ -904,8 +832,6 @@ footer {
   .profile-pic { width: 100px; height: 100px; }
   .profile-name { font-size: 1.7rem; }
   .card { width: 100%; max-width: 320px; }
-  body.recruiter-mode .project-box { flex-direction: column; }
-  body.recruiter-mode .project-img-wrap { width: 100%; height: auto; aspect-ratio: 16/9; }
 }
 </style>
 </head>
@@ -918,11 +844,6 @@ footer {
 <div id="particles-container">
   <canvas id="particles-canvas"></canvas>
 </div>
-
-<!-- Floating Recruiter Mode Button (Exact Placement like Squidwardcodes) -->
-<button id="recruiter-toggle" class="recruiter-toggle" type="button" aria-pressed="false">
-  ⚡ Recruiter Mode: Off
-</button>
 
 <!-- Theme Switcher Pill -->
 <div class="theme-switch-bar">
@@ -944,7 +865,6 @@ footer {
       <li class="command-item" data-action="hero"><span>🏠 Go to Top / Hero</span><kbd>ESC</kbd></li>
       <li class="command-item" data-action="projects"><span>📁 Go to Projects</span><kbd>P</kbd></li>
       <li class="command-item" data-action="timeline"><span>⏱️ Go to Timeline</span><kbd>T</kbd></li>
-      <li class="command-item" data-action="toggle-recruiter"><span>⚡ Toggle Recruiter Mode</span><kbd>R</kbd></li>
       <li class="command-item" data-action="copy-email"><span>✉️ Copy Email (bt25cse080@gmail.com)</span><kbd>C</kbd></li>
       <li class="command-item" data-action="copy-resume"><span>📄 Copy Resume CLI command</span><kbd>D</kbd></li>
       <li class="command-item" data-action="github"><span>🐙 Open GitHub (KIller13b)</span><kbd>G</kbd></li>
@@ -1250,7 +1170,7 @@ footer {
 </footer>
 
 <!-- =====================================================================
-     JAVASCRIPT: Canvas Particles, Typing Loop, Recruiter Mode, Command Palette
+     JAVASCRIPT: Canvas Particles, Typing Loop, Command Palette
      ===================================================================== -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -1290,10 +1210,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initStars();
 
   function animateStars(time) {
-    if (document.body.classList.contains('recruiter-mode')) {
-      requestAnimationFrame(animateStars);
-      return;
-    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let s of stars) {
@@ -1384,27 +1300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     typeLoop();
   }
 
-  // 3. RECRUITER MODE TOGGLE
-  const recruiterToggle = document.getElementById('recruiter-toggle');
-  const storageKey = 'recruiterModeEnabled';
-
-  function applyRecruiterMode(enabled) {
-    document.body.classList.toggle('recruiter-mode', enabled);
-    recruiterToggle.setAttribute('aria-pressed', String(enabled));
-    recruiterToggle.textContent = enabled ? '⚡ Recruiter Mode: On' : '⚡ Recruiter Mode: Off';
-  }
-
-  const savedMode = localStorage.getItem(storageKey) === 'true';
-  applyRecruiterMode(savedMode);
-
-  recruiterToggle.addEventListener('click', () => {
-    const isNow = !document.body.classList.contains('recruiter-mode');
-    applyRecruiterMode(isNow);
-    localStorage.setItem(storageKey, String(isNow));
-    showToast(isNow ? '⚡ Recruiter Mode: ON (High density view)' : '🌌 Cosmic View Restored');
-  });
-
-  // 4. RESUME TRIGGER (CLI Launcher)
+  // 3. RESUME TRIGGER (CLI Launcher)
   const resumeBtn = document.getElementById('resume-trigger');
   const resumeStatus = document.getElementById('resume-status');
   if (resumeBtn) {
@@ -1485,7 +1381,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (action === 'hero') document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
     if (action === 'projects') document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     if (action === 'timeline') document.getElementById('timeline')?.scrollIntoView({ behavior: 'smooth' });
-    if (action === 'toggle-recruiter') recruiterToggle.click();
     if (action === 'copy-email') {
       navigator.clipboard.writeText('bt25cse080@gmail.com');
       showToast('✉️ Copied email: bt25cse080@gmail.com');
