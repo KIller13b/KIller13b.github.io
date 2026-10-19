@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sunil Kharadi — Full-Stack Developer</title>
+<meta name="description" content="Portfolio of Sunil Kharadi (@KIller13b) — full-stack developer building AI-powered, offline-first and privacy-first developer tools." />
+<meta property="og:title" content="Sunil Kharadi — Full-Stack Developer" />
+<meta property="og:description" content="Full-stack developer building AI-powered, offline-first, privacy-first tools." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://killer13b.github.io/" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%237c3aed'/><text x='50' y='68' font-size='58' font-family='monospace' text-anchor='middle' fill='white'>S</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark">SK</span>
+      <span class="brand-text">Sunil Kharadi<small>@KIller13b</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#about">About</a>
+      <a class="nav-cta" href="https://github.com/KIller13b" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .5Z"/></svg>
+        GitHub
+      </a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap">
+    <div class="hero-badge reveal">
+      <span class="dot"></span> Open to internships &amp; collaborations
+    </div>
+    <p class="eyebrow reveal">Full-Stack Developer · Edge AI · Privacy-First</p>
+    <h1 class="reveal">
+      I build <span class="grad">AI-powered</span> tools that run
+      <span class="grad2">offline-first</span> &amp; privacy-first.
+    </h1>
+    <p class="hero-sub reveal">
+      Full-stack developer focused on applied AI, developer tooling, and
+      self-contained web apps. I turn ideas into working products — from a
+      multi-agent security auditor to on-device machine learning in the browser.
+    </p>
+    <div class="hero-actions reveal">
+      <a class="btn btn-primary" href="#projects">View projects</a>
+      <a class="btn btn-ghost" href="https://github.com/KIller13b" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:bt25cse080@gmail.com">Email</a>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="stat"><b>4+</b><span>shipped projects</span></div>
+      <div class="stat"><b>6+</b><span>languages &amp; stacks</span></div>
+      <div class="stat"><b>100%</b><span>runs on-device</span></div>
+    </div>
+  </section>
+
+  <section id="projects" class="wrap section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Selected work</p>
+      <h2>Projects</h2>
+      <p class="section-sub">Each one ships: real code, real architecture, real constraints solved.</p>
+    </div>
+
+    <article class="feature reveal">
+      <div class="feature-media">
+        <img src="assets/agentaudit.png" alt="AgentAudit review dashboard" loading="lazy" />
+        <span class="chip-live">Flagship</span>
+      </div>
+      <div class="feature-body">
+        <h3>AgentAudit</h3>
+        <p class="tagline">Autonomous multi-agent AI security auditor</p>
+        <p>
+          Paste a GitHub Pull Request or a Solidity contract and a team of
+          specialised AI agents audits it in parallel — a <b>Guard</b> for
+          security, a <b>Speedster</b> for performance, a <b>Fixer</b> that
+          proposes patches, and a <b>Solidity</b> agent for Web3 vulnerabilities —
+          returning a graded report in seconds. Ships with a live ops dashboard.
+        </p>
+        <ul class="points">
+          <li>Parallel <code>asyncio</code> agent orchestration with per-agent telemetry</li>
+          <li>Detects reentrancy, access-control, and unsafe-call vulnerabilities</li>
+          <li>FastAPI backend + React/TypeScript UI + CLI, served with an ops dashboard</li>
+        </ul>
+        <div class="tags">
+          <span>Python</span><span>FastAPI</span><span>asyncio</span><span>LLM Agents</span><span>Groq</span><span>React</span><span>TypeScript</span><span>Solidity</span>
+        </div>
+        <div class="links">
+          <a class="link-primary" href="https://agentaudit-gamma.vercel.app" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7Zm-9 0H3v18h18v-8h-2v6H5V5h6V3H5Z"/></svg>
+            Live app
+          </a>
+          <a class="link-ghost" href="https://github.com/KIller13b/agentaudit" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.1.82-.26.82-.58v-2c-3.34.72-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57A12 12 0 0 0 12 .5Z"/></svg>
+            Source code
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <div class="grid">
+      <article class="card reveal">
+        <div class="card-media">
+          <img src="assets/upi-ledger.png" alt="UPI Ledger dashboard" loading="lazy" />
+        </div>
+        <div class="card-body">
+          <h3>UPI Ledger</h3>
+          <p class="tagline">Privacy-first, offline UPI statement tracker</p>
+          <p>
+            Turns Google Pay statement PDFs and bank CSVs into a searchable,
+            categorised view of your spending — running fully on-device with
+            <code>pdf.js</code> and IndexedDB. No account, no server, no cloud.
+          </p>
+          <div class="tags">
+            <span>React</span><span>TypeScript</span><span>Vite</span><span>pdf.js</span><span>Dexie</span><span>PWA</span>
+          </div>
+          <div class="links">
+            <a class="link-primary" href="https://killer13b.github.io/upi-ledger/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7Zm-9 0H3v18h18v-8h-2v6H5V5h6V3H5Z"/></svg>
+              Live app
+            </a>
+            <a class="link-ghost" href="https://github.com/KIller13b/upi-ledger" target="_blank" rel="noopener">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media">
+          <img src="assets/object-classifier.png" alt="Object Classifier app" loading="lazy" />
+        </div>
+        <div class="card-body">
+          <h3>Object Classifier</h3>
+          <p class="tagline">Zero-shot image recognition in the browser</p>
+          <p>
+            Point your camera at anything and get instant labels — <b>100% offline</b>.
+            Runs CLIP via Transformers.js with WebGPU, open-vocabulary (any class
+            list works), no training, no API keys, no Mac required.
+          </p>
+          <div class="tags">
+            <span>Transformers.js</span><span>CLIP</span><span>ONNX</span><span>WebGPU</span><span>PWA</span>
+          </div>
+          <div class="links">
+            <a class="link-primary" href="https://killer13b.github.io/object-classifier/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M14 3v2h3.6l-9.8 9.8 1.4 1.4L19 6.4V10h2V3h-7Zm-9 0H3v18h18v-8h-2v6H5V5h6V3H5Z"/></svg>
+              Live app
+            </a>
+            <a class="link-ghost" href="https://github.com/KIller13b/object-classifier" target="_blank" rel="noopener">Code</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-media placeholder">
+          <div class="ph-inner">
+            <svg viewBox="0 0 24 24" width="42" height="42" aria-hidden="true"><path fill="currentColor" d="M12 2 2 7l10 5 10-5-10-5Zm0 7.2L4.4 5.5 12 5.5l7.6 0L12 9.2ZM2 17l10 5 10-5-2-.9-8 4-8-4-2 .9Zm0-5 10 5 10-5-2-.9-8 4-8-4-2 .9Z"/></svg>
+            <span>SIH 2026</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <h3>Kabadiwala Connect</h3>
+          <p class="tagline">Connecting e-waste collectors to recyclers</p>
+          <p>
+            Offline-first platform linking informal scrap collectors to
+            authorised recyclers — on-device material classification, instant
+            valuation, ranked matching, and traceable handovers. For SIH 2026.
+          </p>
+          <div class="tags">
+            <span>Flutter</span><span>Dart</span><span>FastAPI</span><span>TFLite</span><span>MobileNetV2</span>
+          </div>
+          <div class="links">
+            <a class="link-ghost" href="https://github.com/KIller13b/kabadiwala-connect" target="_blank" rel="noopener">Code</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills" class="wrap section">
+    <div class="section-head reveal">
+      <p class="eyebrow">Toolbox</p>
+      <h2>Skills &amp; stack</h2>
+    </div>
+    <div class="skills reveal">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <div class="tags"><span>Python</span><span>TypeScript</span><span>JavaScript</span><span>Dart</span><span>Solidity</span><span>C++</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>AI / ML</h4>
+        <div class="tags"><span>LLM Agents</span><span>Prompt Engineering</span><span>Transformers.js</span><span>TFLite</span><span>ONNX</span><span>WebGPU</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Web &amp; Backend</h4>
+        <div class="tags"><span>React</span><span>Vite</span><span>Tailwind CSS</span><span>FastAPI</span><span>REST APIs</span><span>PWA</span></div>
+      </div>
+      <div class="skill-group">
+        <h4>Tools &amp; Platforms</h4>
+        <div class="tags"><span>Git / GitHub</span><span>GitHub Actions</span><span>Linux</span><span>Flutter</span><span>Playwright</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="wrap section">
+    <div class="about reveal">
+      <div class="about-text">
+        <p class="eyebrow">About</p>
+        <h2>Building things that work offline, on-device, and on a budget.</h2>
+        <p>
+          I'm Sunil Kharadi, a <b>full-stack developer</b> who likes the hard,
+          useful parts of software: making machine learning run without a server,
+          keeping user data private, and turning a rough idea into a shipped
+          product.
+        </p>
+        <p>
+          I'm a 2nd-year Computer Science student at <b>IIIT Nagpur</b>. My work
+          spans <b>applied AI</b>, <b>developer tooling</b>, and
+          <b>offline-first web &amp; mobile apps</b> — often built end-to-end:
+          architecture, backend, UI, and deployment. I care about clear code,
+          honest engineering, and paying attention to detail.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/KIller13b" target="_blank" rel="noopener">See more on GitHub</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <div class="about-facts">
+        <div class="fact"><span class="fact-k">Role</span><span class="fact-v">Full-Stack Developer</span></div>
+        <div class="fact"><span class="fact-k">Education</span><span class="fact-v">B.Tech CSE · IIIT Nagpur (2nd yr)</span></div>
+        <div class="fact"><span class="fact-k">Focus</span><span class="fact-v">Applied AI &amp; developer tools</span></div>
+        <div class="fact"><span class="fact-k">Principles</span><span class="fact-v">Offline-first · privacy-first · on-device</span></div>
+        <div class="fact"><span class="fact-k">Based in</span><span class="fact-v">Nagpur, India</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="cta reveal">
+      <h2>Get in touch</h2>
+      <p>Open to internships, collaborations, and interesting problems.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="mailto:bt25cse080@gmail.com">Email me</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/KIller13b" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>&copy; <span id="year">2026</span> Sunil Kharadi</span>
+    <span class="footer-links">
+      <a href="https://github.com/KIller13b" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/sunil-kharadi-09b560427/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:bt25cse080@gmail.com">Email</a>
+      <a href="#projects">Projects</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const toggle = document.getElementById('navToggle');
+const nav = document.getElementById('nav');
+toggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.nav-links a').forEach(a =>
+  a.addEventListener('click', () => nav.classList.remove('open'))
+);
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
